@@ -11,12 +11,20 @@ Es gibt ganz verschiedene Ansätze wie man das Kunstück ausführen kann.
 * Mit einem mechanischen Detector (Which Hand by Christopher Taylor, eine absolut geniale Lösung)
 * Elektronisch we z.B. Sixt Sence von Hugo Shelly (Was lt. meinen Infos nicht mehr neu hergestellt wird, Webseite: https://www.hugoshelley.com ist down.)
 
-A magic device based on an ESP32 and a magnetometer to detect hidden magnets.
-Ein magisches Gerät das als Herzstück einen ESP32 mit einem über I2C angebundnene Magnetometer auf einem Breakout-Board. 
+Die Motivation mir selbst so ein kleines "Which Hand" Tool zu basteln kommt vor allem auch aus der Tatsache, dass ich etwas Sehbehindert bin und so ein System vo das von Christoper Talor einfach nicht nutzen kann. Es ist einfach zu klein.
+
+Nun aber die harten Anforderungen
+
+* Preisgünstig, möglichst un 50 Euro zu realisieren
+* Highttech, aber außer ein paar Lötpunkte soll alles mit gut erhältlichen Komponenten realisierbar sein, auch wenn sich daraus ggf. Einschränkungen in der Benutzbarkeit ergeben.
+
+Also mal zum Thema Magnetometer geforscht. Die Frage nach Magnetometer zum erkennen von Magneten taucht im Internet immer mal wieder auf, aber so richtig Erhellendes habe ich da nicht gefunen.
+
+DIY Prozess: Ich besorge mir ein Breakout Board mit einem Magnetometer Chip (QMC5883L) und hänge den mit I2C an einen Microkontroller den ich eh schon hatte.
 
 ## GY-273 QMC5883L Triple Axis Compass Magnetometer Sensor HMC5883L
 
-Das Herzstück der Lösung ein Mangnetometer auf einem recht kleinen Breakoutboard. Quelle z.B.: https://www.amazon.de/TECNOIOT-GY-273-QMC5883L-Magnetometer-Compatible/dp/B07HMK1QNH. Diese kleinen Breakoutboards sind recht preisgünstig, so ca. 5-6 Euro. Warum genau dieser Chip. Die einfachste Erklärung ist, dass es dazu von Adafruid eine schöne Bibliothek gibt die den ganze I2C Overhead verwaltet. https://github.com/adafruit/Adafruit_HMC5883_Unified.
+Das Herzstück der Lösung ist also ein Mangnetometer auf einem recht kleinen Breakoutboard. Quelle z.B.: https://www.amazon.de/TECNOIOT-GY-273-QMC5883L-Magnetometer-Compatible/dp/B07HMK1QNH. Diese kleinen Breakoutboards sind recht preisgünstig, so ca. 5-6 Euro. Warum genau dieser Chip. Die einfachste Erklärung ist, dass es dazu von Adafruid eine schöne Bibliothek gibt die den ganze I2C Overhead verwaltet. https://github.com/adafruit/Adafruit_HMC5883_Unified.
 
 # Das geht doch gar nicht...
 
