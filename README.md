@@ -14,7 +14,7 @@ So oder ähnlich habe ich es an verschiedenen Stellen im Netz gelesen. Man kann 
 # Roadmap
 
 * Anbindung mit Bluetooth
-* Umstellung auf Seeed Studio XIAO ESP32S3, da dieses ESP32 einen Anschluß und eine Ladeelektronik für kleine Lipo Akkus bereitstellt. Quelle: https://www.reichelt.de/de/de/shop/produkt/xiao_esp32s3_dual-core_wifi_bt5_0_ohne_header-358354.
+* Umstellung auf Seeed Studio XIAO ESP32S3, da dieses ESP32 einen Anschluß und eine Ladeelektronik für kleine Lipo Akkus bereitstellt. Quelle: https://www.reichelt.de/de/de/shop/produkt/xiao_esp32s3_dual-core_wifi_bt5_0_ohne_header-358354. Wiki: https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/ (Board bereits bestellt :-) )
 * Erstellung der Smartphone App als Progresive Web Anwendung, so dass sowohl die iOs als auch die Android Welt unterstützt werden kann. (Aktuell noch unklar ob das mit BLE überhaupt geht) Ansonsten dann als MAUI lösung.
 * Erweterung der Idee, so das das System auch vom Smartphone aus konfiguriert werden kann. Hier wäre vor allem das Thema Anpassung auf den Magneten ein Thema.
 * Erarbeiten von Kunststückideen
