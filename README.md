@@ -1,5 +1,16 @@
 # Nasreddins-Secret-Listener
 
+## Die Anwendung
+
+Die Grundidee dieses kleinen Gimmicks war eine bezahlbare Technische Lösung zu finden um den sogenannten "Which Hand" Trick elektronisch umzusetzen. Also Amateurzauberer ist es wirschaftlich nicht Darstellbar ein Gerät für über 200€ zu kaufen um einen Kunststück von einer oder zwei Minuten zu haben. Und klar, die der DIY Virus hat mal wieder zugeschlagen. Ich habe lange nach Beschreibungen zu dem Which Hand trick gesucht.
+
+Es gibt ganz verschiedene Ansätze wie man das Kunstück ausführen kann.
+
+* Rein Mental (z.B. wie in dem Kunststück Overlooked)
+* Mit Zinken
+* Mit einem mechanischen Detector (Which Hand by Christopher Taylor, eine absolut geniale Lösung)
+* Elektronisch we z.B. Sixt Sence von Hugo Shelly (Was lt. meinen Infos nicht mehr neu hergestellt wird, Webseite: https://www.hugoshelley.com ist down.)
+
 A magic device based on an ESP32 and a magnetometer to detect hidden magnets.
 Ein magisches Gerät das als Herzstück einen ESP32 mit einem über I2C angebundnene Magnetometer auf einem Breakout-Board. 
 
