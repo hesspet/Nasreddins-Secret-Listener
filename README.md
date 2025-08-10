@@ -31,8 +31,8 @@ Es gibt von Adafruit eine gut dokumentierte Bibliothek, die den gesamten I²C-Ov
 - Entwicklung einer Smartphone-App als Progressive Web App (oder alternativ als MAUI-App)
 - Möglichkeit zur Magnet-Kalibrierung direkt vom Smartphone aus
 - Sammlung von Kunststückideen, z. B.:
-  - „Which Hand“ – der Klassiker
-  - „Nasreddin zaubert“
+  - „Which Hand“ – der Klassiker (Video TBD)
+  - „Nasreddin zaubert“ (Video TBD)
   - Weitere Anwendungen
 
 ## Wer oder was ist Nassreddin?
