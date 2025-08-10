@@ -7,7 +7,8 @@
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
-        <ShellContent Title="Scan" ContentTemplate="{DataTemplate pages:ScanPage}" />
-        <ShellContent Title="Status" ContentTemplate="{DataTemplate pages:StatusPage}" />
+        <ShellContent Title="Scan"   Route="scan" ContentTemplate="{DataTemplate pages:ScanPage}" />
+        <ShellContent Title="Status"  Route="status" ContentTemplate="{DataTemplate pages:StatusPage}" />
+        <ShellContent Title="Setup" Route="settings" ContentTemplate="{DataTemplate pages:SettingsPage}" />
     </TabBar>
 </Shell>

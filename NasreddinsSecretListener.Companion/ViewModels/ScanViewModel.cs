@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using NasreddinsSecretListener.Companion.Models;
 using NasreddinsSecretListener.Companion.Services;
+using Microsoft.Maui.Storage;
 
 namespace NasreddinsSecretListener.Companion.ViewModels;
 
@@ -29,11 +30,8 @@ public partial class ScanViewModel : ObservableObject
     });
 
     public IAsyncRelayCommand ConnectAndListenCommand { get; }
-
     public IAsyncRelayCommand ConnectMyDeviceCommand => new AsyncRelayCommand(ConnectMyAsync);
-
     public ObservableCollection<NslDevice> Devices { get; } = new();
-
     public IAsyncRelayCommand StartScanCommand { get; }
     public IAsyncRelayCommand StopScanCommand { get; }
 
@@ -54,6 +52,14 @@ public partial class ScanViewModel : ObservableObject
         var ok = await _ble.ConnectAndSubscribeAsync(SelectedDevice.Id);
         IsConnected = ok;
         StatusText = ok ? "Verbunden. Lausche auf Status..." : "Verbindung fehlgeschlagen.";
+
+        if (ok)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                try { await Shell.Current.GoToAsync("//status"); } catch { /* ignore */ }
+            });
+        }
     }
 
     public async Task LoadMyDeviceAsync()
@@ -76,8 +82,38 @@ public partial class ScanViewModel : ObservableObject
         // optional: IsConnected = false; wenn Du hier trennst
     }
 
+    public async Task TryAutoConnectAsync()
+    {
+        // Lade gespeichertes "Mein Gerät"
+        await LoadMyDeviceAsync();
+
+        // Nur wenn Einstellung aktiv ist, ein Gerät gespeichert ist,
+        // noch keine Verbindung besteht und wir es in diesem Lebenszyklus
+        // noch nicht versucht haben.
+        var wantAuto = Preferences.Get(AutoConnectPrefKey, false);
+        if (!wantAuto || string.IsNullOrEmpty(_myDeviceId) || IsConnected || _autoConnectTried)
+            return;
+
+        _autoConnectTried = true;
+
+        StatusText = "Auto-Connect zu 'Mein Gerät'…";
+        var ok = await _ble.ConnectByIdOrScanAsync(_myDeviceId, TimeSpan.FromSeconds(12));
+        IsConnected = ok;
+        StatusText = ok ? "Verbunden. Lausche auf Status…" : "Auto-Connect fehlgeschlagen. Bitte näher ran und erneut versuchen.";
+
+        if (ok)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                try { await Shell.Current.GoToAsync("//status"); } catch { /* ignore */ }
+            });
+        }
+    }
+
+    private const string AutoConnectPrefKey = "settings.autoconnect";
     private const string MyDeviceKey = "nsl.myDeviceId";
     private readonly IBleClient _ble;
+    private bool _autoConnectTried; // damit wir es pro Anzeigen der Seite nur einmal versuchen
     private string? _myDeviceId;
     [ObservableProperty] private bool hasMyDevice;
     [ObservableProperty] private bool isConnected;
@@ -126,10 +162,19 @@ public partial class ScanViewModel : ObservableObject
             StatusText = "Kein 'Mein Gerät' gespeichert.";
             return;
         }
+
         StatusText = "Verbinde zu 'Mein Gerät'…";
         var ok = await _ble.ConnectByIdOrScanAsync(_myDeviceId, TimeSpan.FromSeconds(12));
         IsConnected = ok;                                // <--
         StatusText = ok ? "Verbunden. Lausche auf Status…" : "Nicht gefunden. Bitte näher ran und erneut versuchen.";
+
+        if (ok)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                try { await Shell.Current.GoToAsync("//status"); } catch { /* ignore */ }
+            });
+        }
     }
 
     private void ResortDevices()

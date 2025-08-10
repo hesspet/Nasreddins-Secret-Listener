@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NasreddinsSecretListener.Companion.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:NasreddinsSecretListener.Companion.ViewModels"
+    Title="Einstellungen">
+
+	<!-- BindingContext direkt im XAML erstellen -->
+	<ContentPage.BindingContext>
+		<viewmodels:SettingsViewModel />
+	</ContentPage.BindingContext>
+
+
+	<ScrollView>
+		<VerticalStackLayout Padding="16" Spacing="12">
+
+			<Label Text="Einstellungen" FontSize="20" FontAttributes="Bold" />
+
+			<Switch IsToggled="{Binding VibrateOnEarly}" />
+			<Label Text="Vibration bei Annäherung" />
+
+			<Switch IsToggled="{Binding VibrateOnConfirmed}" />
+			<Label Text="Vibration bei Magnet erkannt" />
+
+			<Switch IsToggled="{Binding DoublePulseForConfirmed}" />
+			<Label Text="Doppelpuls bei Magnet erkannt" />
+
+			<Switch IsToggled="{Binding AutoConnectMyDevice}" />
+			<Label Text="Automatisch zu 'Mein Gerät' verbinden" />
+
+			<Switch IsToggled="{Binding ShowOnlyNsl}" />
+			<Label Text="Nur NSL-Geräte anzeigen" />
+
+			<Slider
+                Minimum="80"
+                Maximum="400"
+                Value="{Binding HapticMs}" />
+			<Label Text="{Binding HapticMs, StringFormat='Haptik-Dauer: {0} ms'}" />
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

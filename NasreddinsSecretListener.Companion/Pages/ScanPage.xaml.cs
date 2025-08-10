@@ -19,9 +19,8 @@ public partial class ScanPage : ContentPage
         base.OnAppearing();
         if (BindingContext is ScanViewModel vm)
         {
-            await vm.LoadMyDeviceAsync();
-            // Optional: gleich versuchen zu verbinden
-            // if (vm.HasMyDevice) await vm.ConnectMyAsync();
+            // lädt MyDevice + versucht Auto-Connect, wenn in Settings aktiviert
+            await vm.TryAutoConnectAsync();
         }
     }
 
