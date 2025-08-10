@@ -162,6 +162,8 @@ sequenceDiagram
   * **ShortID** = menschlich lesbar, fix definiert (z. B. „letzte 3 Bytes in Big-Endian“).
   * **Manufacturer Data MAC** = 1:1 wie vom Controller geliefert; App weiß die Reihenfolge.
 
+```
+
 ---
 
 ## 8) TL;DR
