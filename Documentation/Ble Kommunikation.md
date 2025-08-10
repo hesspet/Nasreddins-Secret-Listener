@@ -1,9 +1,3 @@
-alles klar — hier ist ein fertiges **Markdown-Dokument** für dein Repo.
-Dateiname-Vorschlag: `BLE_PROTOCOL.md`
-(du kannst es 1:1 übernehmen)
-
----
-
 # Nasreddin’s Secret Listener — BLE Protokoll
 
 **Version:** 1.0 · **Board:** ESP32 (M5Stack Atom Lite) · **BLE-Stack:** NimBLE-Arduino 2.3.x
