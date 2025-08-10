@@ -135,6 +135,43 @@ public class BleClientService : IBleClient
         }
     }
 
+    private async Task VibratePatternAsync(byte status)
+    {
+        try
+        {
+            await _vibeGate.WaitAsync();
+
+            // kleiner Spam-Schutz (falls sehr viele Notifies einlaufen)
+            var now = DateTime.UtcNow;
+            if (now - _lastVibe < _minGap)
+                return;
+
+            if (status == 0x01) // EARLY: 1× kurz
+            {
+                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(120)); } catch { }
+                await Task.Delay(150);
+            }
+            else if (status == 0x02) // CONFIRMED: 2× kurz
+            {
+                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(120)); } catch { }
+                await Task.Delay(120);
+                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(120)); } catch { }
+                await Task.Delay(150);
+            }
+
+            _lastVibe = DateTime.UtcNow;
+        }
+        finally
+        {
+            _vibeGate.Release();
+        }
+    }
+
+    // Haptik: Überlappungen vermeiden + minimale Pause zwischen Mustern
+    private readonly SemaphoreSlim _vibeGate = new(1, 1);
+
+    private readonly TimeSpan _minGap = TimeSpan.FromMilliseconds(250);
+
     // ▼ NEU: Gemeinsamer Abschluss – verbinden + Notify abonnieren
     private async Task<bool> FinishConnectAndSubscribeAsync(IDevice dev)
     {
@@ -152,6 +189,7 @@ public class BleClientService : IBleClient
             _notifyChar.ValueUpdated += OnStatusUpdated;
             await _notifyChar.StartUpdatesAsync();
             StateChanged?.Invoke($"Verbunden: {dev.Name}");
+            _lastStatus = null;
             return true;
         }
         catch (Exception ex)
@@ -160,6 +198,12 @@ public class BleClientService : IBleClient
             return false;
         }
     }
+
+    // Throttle gegen Dauer-Vibrationen
+    private byte? _lastStatus;
+
+    private DateTime _lastVibe = DateTime.MinValue;
+    private readonly TimeSpan _vibeCooldown = TimeSpan.FromMilliseconds(800); // minimaler Abstand
 
     // ▼ NEU: Sauber trennen
     public async Task DisconnectAsync()
@@ -231,7 +275,8 @@ public class BleClientService : IBleClient
     {
         var data = e.Characteristic.Value;
         if (data is null || data.Length == 0) return;
-        var val = data[0];
+
+        var val = data[0]; // 0x00=None, 0x01=Early, 0x02=Confirmed
         var text = val switch
         {
             0x00 => "Kein Magnet",
@@ -240,15 +285,14 @@ public class BleClientService : IBleClient
             _ => $"Unbekannter Status 0x{val:X2}"
         };
 
+        // Haptik gemäß Vorgabe: 0x01 = 1x kurz, 0x02 = 2x kurz
+        // Nicht blockierend ausführen (eigener Task)
+        _ = Task.Run(() => VibratePatternAsync(val));
+
+        // UI-Status aktualisieren
         MainThread.BeginInvokeOnMainThread(() =>
         {
             StateChanged?.Invoke($"Status: {text}");
-            try
-            {
-                var dur = val == 0x02 ? 300 : 120;
-                Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(dur));
-            }
-            catch { }
         });
     }
 
