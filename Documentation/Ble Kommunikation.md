@@ -120,35 +120,37 @@ Advertising (vereinfacht, relevante Punkte):
 ```mermaid
 sequenceDiagram
     autonumber
-    participant ESP as ESP32<br/>(NSL)
+    participant ESP as ESP32 (NSL)
     participant ADV as BLE Advertising
     participant APP as Smartphone-App
     participant USER as Zauberer
 
     rect rgb(245,245,245)
-    note over ESP: Startup / BLE-Init
-    ESP->>ESP: mac = esp_bt_dev_get_address()
-    ESP->>ESP: shortId = last 3 MAC bytes ("AB12CD")
-    ESP->>ADV: setName("NSL-AB12CD")
-    ESP->>ADV: setManufacturerData([0x1337][MAC(6B)][Status=0x00])
-    ADV->>ADV: enableScanResponse(true); start()
+      note over ESP: Startup / BLE-Init
+      ESP->>ESP: mac = esp_bt_dev_get_address()
+      ESP->>ESP: shortId = last 3 MAC bytes ("AB12CD")
+      ESP->>ADV: setName("NSL-AB12CD")
+      ESP->>ADV: setManufacturerData([0x1337][MAC(6B)][Status=0x00])
+      ADV->>ADV: enableScanResponse(true)
+      ADV->>ADV: start()
     end
 
     rect rgb(240,255,240)
-    note over APP: Scan auf Service-UUID
-    APP->>ADV: ScanRequest
-    ADV-->>APP: AdvData(Name, UUIDs, MfrData)
-    APP->>APP: Parse MfrData → MAC
-    APP->>APP: Match mit gespeicherter MAC (Taufe)
-    alt MAC match
+      note over APP: Scan auf Service-UUID
+      APP->>ADV: ScanRequest
+      ADV-->>APP: AdvData (Name, UUIDs, MfrData)
+      APP->>APP: Parse MfrData → MAC
+      APP->>APP: Match mit gespeicherter MAC (Taufe)
+      alt MAC match
         APP->>ESP: Connect
         APP->>ESP: Subscribe NotifyChar (0x...03)
         ESP-->>APP: Notify(0x01/0x02 bei Events)
         APP->>USER: Vibration / Screen-Hint
-    else kein Match
+      else kein Match
         APP->>APP: ignorieren
+      end
     end
-    end
+
 
 ```
 
