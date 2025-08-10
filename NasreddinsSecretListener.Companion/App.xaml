@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "utf-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:local="clr-namespace:NasreddinsSecretListener.Companion"
+             x:Class="NasreddinsSecretListener.Companion.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Converter -->
+            <local:NullToBoolConverter x:Key="NullToBoolConverter" />
+            <local:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <local:NslBadgeTextConverter x:Key="NslBadgeTextConverter" />
+            <local:StatusToTextConverter x:Key="StatusToTextConverter" />
+
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
