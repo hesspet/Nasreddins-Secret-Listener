@@ -1,3 +1,5 @@
+Uml aus dem Eis - muss sein: https://www.youtube.com/watch?v=nIoaJSDQvlk
+
 # Nasreddin's Secret Listener – UML & Sequenzdiagramme
 
 ## Klassenübersicht
