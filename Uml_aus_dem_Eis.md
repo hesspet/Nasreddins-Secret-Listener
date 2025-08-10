@@ -1,4 +1,6 @@
-# Klassen
+# Nasreddin's Secret Listener – UML & Sequenzdiagramme
+
+## Klassenübersicht
 
 ```mermaid
 %% Nasreddins Secret Listener – Klassenübersicht
@@ -57,7 +59,6 @@ classDiagram
       <<uses Adafruit_HMC5883>>
     }
 
-    ```
     class Config_h {
       <<config>>
       BASELINE_MS
