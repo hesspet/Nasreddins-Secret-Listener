@@ -7,6 +7,75 @@
 ================================================================================
 */
 
+/*
+================================================================================
+FUNKTIONSÜBERSICHT
+------------------
+Diese Firmware erkennt das Annähern und Vorhandensein eines Magneten
+unabhängig von der Ausrichtung des Sensors. Zielanwendung ist z. B.
+ein Zaubertrick, bei dem ein in der Hand verstecktes Gerät erkennen
+soll, ob sich ein Magnet (Ring, Münze o. Ä.) in der Nähe der Hand
+des Zuschauers befindet, und diese Erkennung unauffällig an ein
+Smartphone über BLE meldet.
+
+Modulaufbau:
+  - MagnetDetector: Sensoransteuerung (HMC5883L), Filter, Erkennung, Auto-Rekalibrierung
+  - LedDisplay: Ansteuerung der RGB-LED (Atom Lite)
+  - BleService: BLE-Server mit Notify-Charakteristik (Status an Smartphone)
+  - ButtonManager: Taster-Handling inkl. Long-Press → DeepSleep
+  - Hauptprogramm (.ino): Koordination aller Module
+
+Ablauf:
+  1. Startphase (Baseline):
+     - Ermittelt über ~3 s die "Grundfeldstärke" des Magnetfelds
+       (Erdfeld + Umgebung) ohne Magnet in der Nähe.
+     - Speichert diesen Wert als B0 (µT) und B0² (µT²).
+  2. Messphase:
+     - Liest den HMC5883L mit ca. 50 Hz aus.
+     - Berechnet die Feldstärke B² = x² + y² + z².
+     - Führt zwei Filter:
+         * SLOW-EMA: bildet langsam den Hintergrund ab.
+         * FAST-EMA: reagiert schnell auf Änderungen (Annäherung).
+     - Ermittelt Trend = FAST − SLOW.
+     - Errechnet eine Vorhersage (Look-Ahead), ob in Kürze eine
+       Erkennungsschwelle erreicht wird.
+  3. Statuslogik:
+     - EARLY: Magnet naht (starker Trend oder Look-Ahead nahe Schwelle).
+     - CONFIRMED: Magnet sicher erkannt (absolute Schwelle über Baseline).
+     - Debounce-Zähler sorgen für stabile Erkennung.
+     - Auto-Rekalibrierung passt Baseline an, wenn lange kein Magnet da ist.
+  4. Ausgabe / Feedback:
+     - RGB-LED des Atom Lite zeigt Status:
+         * Rot   = kein Magnet (NONE)
+         * Gelb  = Magnet naht (EARLY)
+         * Grün  = Magnet erkannt (CONFIRMED)
+     - BLE-Notify sendet Status als Byte an verbundenes Smartphone.
+  5. Stromsparmodus:
+     - 7 s Long-Press auf den Atom-Button → LED blinkt blau → DeepSleep.
+     - Aufwecken durch erneuten Tastendruck.
+
+Wichtige Funktionen:
+  - setup(): Initialisiert Sensor, LED, BLE, Button und ermittelt Baseline.
+  - loop():
+      * ButtonManager::update(): prüft Long-Press → ggf. DeepSleep.
+      * MagnetDetector::tick(): aktualisiert Filter und Status.
+      * LedDisplay::showState(): setzt LED passend zum Status.
+      * BleService::notify(): sendet Status an Smartphone.
+  - MagnetDetector::recalcThresholds(): berechnet alle Schwellwerte aus Baseline.
+  - ButtonManager::enterDeepSleep(): versetzt System in tiefsten Schlaf.
+
+Anpassbare Parameter (siehe Config.h):
+  - BASELINE_MS: Dauer der Grundfeld-Ermittlung.
+  - EMA_ALPHA_B2_SLOW / EMA_ALPHA_B2_FAST: Glättungsfaktoren für Filter.
+  - DELTA_ON_UT / DELTA_OFF_UT: Hauptschwellen für CONFIRMED.
+  - TREND_ON_UT / TREND_OFF_UT: Trendschwellen für EARLY.
+  - LOOKAHEAD_MS / EARLY_FRACTION: Vorhersagefenster für frühe Erkennung.
+  - QUIET_BAND_UT / RECAL_AFTER_MS: Bedingungen für Auto-Rekalibrierung.
+  - LONG_PRESS_MS: Dauer für DeepSleep-Auslösung per Button.
+================================================================================
+*/
+
+
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_HMC5883_U.h>
