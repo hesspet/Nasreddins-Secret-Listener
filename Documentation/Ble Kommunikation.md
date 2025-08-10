@@ -149,6 +149,7 @@ sequenceDiagram
         APP->>APP: ignorieren
     end
     end
+
 ```
 
 ---
@@ -172,6 +173,3 @@ sequenceDiagram
 * **Verbinden:** Notify-Char abonnieren → 1-Byte-Status empfangen.
 * **Zukunft:** Config-Char für Label/Thresholds; optional Token+Counter für Auth.
 
----
-
-Wenn du willst, ergänze ich dir eine **kleine Tabelle mit konkreten Hex-Beispielen** aus einem echten Scan (nRF Connect / Android BLE Logger), oder ich pack’ dir dieses Dokument direkt als Datei in dein Repo-Zip.
