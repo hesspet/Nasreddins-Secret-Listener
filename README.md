@@ -35,18 +35,17 @@ Es gibt von Adafruit eine gut dokumentierte Bibliothek, die den gesamten I²C-Ov
   - „Nasreddin zaubert“
   - Weitere Anwendungen
 
-## Wer oder was ist Nasreddin?
+## Wer oder was ist Nassreddin?
 
 Nasreddin Hodscha (auch bekannt als Nasreddin, Nasreddin Hoca oder Nasreddin Hodja) ist eine legendäre Figur aus dem türkischen, persischen und arabischen Kulturraum.  
 Er gilt als Volksweisheitslehrer, Geschichtenerzähler und Schelm, der mit Humor und oft überraschenden Pointen Alltagsweisheiten vermittelt.  
 Die Anekdoten um Nasreddin reichen bis ins 13. Jahrhundert zurück und sind in vielen Ländern verbreitet.  
 Mehr dazu findet man zum Beispiel hier:  
 - <https://de.wikipedia.org/wiki/Nasreddin>  
-- <https://en.wikipedia.org/wiki/Nasreddin>
 
 ## Persönliche Anekdote
 
 Als der Trick **Mr. Gloves** von Juan Pablo herauskam, habe ich ihn sofort gekauft.  
-Die Figur trägt dabei eine markante Mütze – diese hat dazu geführt, dass wir ihr spontan den Namen **Nasreddin Al Qafaz** gaben, was übersetzt etwa „Nasreddin der Handschuh“ bedeutet.  
-So entstand auch der Name dieses Projekts.
+Die Figur trägt dabei eine markante Mütze – diese hat dazu geführt, dass wir ihr spontan den Namen **Nasr ad-Din al-Quffaz (نصر الدين القفاز)** gaben, was übersetzt etwa „Nasreddin der Handschuh“ bedeutet.  
+So entstand auch der Name dieses Projekts. Und glaubt mir, er hat viel von 
 
