@@ -1,44 +1,52 @@
-# Nasreddins-Secret-Listener
+# Nasreddins Secret Listener
 
-## Die Anwendung
+## Magie trifft Technik
 
-Die Grundidee dieses kleinen Gimmicks war eine bezahlbare Technische Lösung zu finden um den sogenannten "Which Hand" Trick elektronisch umzusetzen. Also Amateurzauberer ist es wirschaftlich nicht Darstellbar ein Gerät für über 200€ zu kaufen um einen Kunststück von einer oder zwei Minuten zu haben. Und klar, die der DIY Virus hat mal wieder zugeschlagen. Ich habe lange nach Beschreibungen zu dem Which Hand trick gesucht.
+Die Grundidee dieses kleinen Projekts war, eine bezahlbare technische Lösung zu finden, um den sogenannten „Which Hand“-Trick elektronisch umzusetzen.  
+Als Amateurzauberer ist es wirtschaftlich nicht darstellbar, ein Gerät für über 200 € zu kaufen, um ein Kunststück von vielleicht ein oder zwei Minuten Dauer zu haben.  
+Der DIY-Gedanke war naheliegend, und ich habe lange nach Beschreibungen zu diesem Trick gesucht.
 
-Es gibt ganz verschiedene Ansätze wie man das Kunstück ausführen kann.
+Es gibt ganz verschiedene Ansätze, wie man das Kunststück ausführen kann – rein mental, mechanisch oder elektronisch.  
+Viele der kommerziellen elektronischen Lösungen sind teuer oder so kompakt gebaut, dass sie für meine Zwecke nicht geeignet sind.  
+Mein Ziel war es daher, eine robuste, nachvollziehbare und preisgünstige Variante mit Standardbauteilen zu entwickeln.
 
-* Rein Mental (z.B. wie in dem Kunststück Overlooked)
-* Mit Zinken
-* Mit einem mechanischen Detector (Which Hand by Christopher Taylor, eine absolut geniale Lösung)
-* Elektronisch we z.B. Sixt Sence von Hugo Shelly (Was lt. meinen Infos nicht mehr neu hergestellt wird, Webseite: https://www.hugoshelley.com ist down.)
+**Zielsetzung**
+- Preisgünstig – möglichst unter 50 €
+- Bauteile leicht zu beschaffen
+- Bis auf wenige Lötarbeiten mit gängiger Hardware umsetzbar
 
-Die Motivation mir selbst so ein kleines "Which Hand" Tool zu basteln kommt vor allem auch aus der Tatsache, dass ich etwas Sehbehindert bin und so ein System vo das von Christoper Talor einfach nicht nutzen kann. Es ist einfach zu klein.
+## Technische Basis
 
-Nun aber die harten Anforderungen
+Das Herzstück ist ein **QMC5883L-Magnetometer** auf einem kleinen Breakout-Board (GY-273).  
+Dieser Sensor erkennt Magnete zuverlässig – ideal für den geplanten Einsatz.  
+Es gibt von Adafruit eine gut dokumentierte Bibliothek, die den gesamten I²C-Overhead verwaltet und so die Ansteuerung erleichtert.
 
-* Preisgünstig, möglichst un 50 Euro zu realisieren
-* Highttech, aber außer ein paar Lötpunkte soll alles mit gut erhältlichen Komponenten realisierbar sein, auch wenn sich daraus ggf. Einschränkungen in der Benutzbarkeit ergeben.
+> Hinweis: Entgegen mancher Aussagen in Foren funktioniert die Erkennung eines Magneten in der Nähe mit diesem Chip durchaus zuverlässig.
 
-Also mal zum Thema Magnetometer geforscht. Die Frage nach Magnetometer zum erkennen von Magneten taucht im Internet immer mal wieder auf, aber so richtig Erhellendes habe ich da nicht gefunen.
+## Roadmap
 
-DIY Prozess: Ich besorge mir ein Breakout Board mit einem Magnetometer Chip (QMC5883L) und hänge den mit I2C an einen Microkontroller den ich eh schon hatte.
+- Anbindung per Bluetooth
+- Umstellung auf Seeed Studio XIAO ESP32S3 mit integriertem Akkuanschluss und Ladeschaltung  
+  Quelle: <https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/>
+- Entwicklung einer Smartphone-App als Progressive Web App (oder alternativ als MAUI-App)
+- Möglichkeit zur Magnet-Kalibrierung direkt vom Smartphone aus
+- Sammlung von Kunststückideen, z. B.:
+  - „Which Hand“ – der Klassiker
+  - „Nasreddin zaubert“
+  - Weitere Anwendungen
 
-## GY-273 QMC5883L Triple Axis Compass Magnetometer Sensor HMC5883L
+## Wer oder was ist Nasreddin?
 
-Das Herzstück der Lösung ist also ein Mangnetometer auf einem recht kleinen Breakoutboard. Quelle z.B.: https://www.amazon.de/TECNOIOT-GY-273-QMC5883L-Magnetometer-Compatible/dp/B07HMK1QNH. Diese kleinen Breakoutboards sind recht preisgünstig, so ca. 5-6 Euro. Warum genau dieser Chip. Die einfachste Erklärung ist, dass es dazu von Adafruid eine schöne Bibliothek gibt die den ganze I2C Overhead verwaltet. https://github.com/adafruit/Adafruit_HMC5883_Unified.
+Nasreddin Hodscha (auch bekannt als Nasreddin, Nasreddin Hoca oder Nasreddin Hodja) ist eine legendäre Figur aus dem türkischen, persischen und arabischen Kulturraum.  
+Er gilt als Volksweisheitslehrer, Geschichtenerzähler und Schelm, der mit Humor und oft überraschenden Pointen Alltagsweisheiten vermittelt.  
+Die Anekdoten um Nasreddin reichen bis ins 13. Jahrhundert zurück und sind in vielen Ländern verbreitet.  
+Mehr dazu findet man zum Beispiel hier:  
+- <https://de.wikipedia.org/wiki/Nasreddin>  
+- <https://en.wikipedia.org/wiki/Nasreddin>
 
-# Das geht doch gar nicht...
+## Persönliche Anekdote
 
-So oder ähnlich habe ich es an verschiedenen Stellen im Netz gelesen. Man kann mit dem Chip nicht einfach ein Magnet in der nähe erkennen. Naja - Unsinn. Es geht doch und sogar, so wie ich finde, recht gut.
+Als der Trick **Mr. Gloves** von Juan Pablo herauskam, habe ich ihn sofort gekauft.  
+Die Figur trägt dabei eine markante Mütze – diese hat dazu geführt, dass wir ihr spontan den Namen **Nasreddin Al Qafaz** gaben, was übersetzt etwa „Nasreddin der Handschuh“ bedeutet.  
+So entstand auch der Name dieses Projekts.
 
-# Roadmap
-
-* Anbindung mit Bluetooth
-* Umstellung auf Seeed Studio XIAO ESP32S3, da dieses ESP32 einen Anschluß und eine Ladeelektronik für kleine Lipo Akkus bereitstellt. Quelle: https://www.reichelt.de/de/de/shop/produkt/xiao_esp32s3_dual-core_wifi_bt5_0_ohne_header-358354. Wiki: https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/ (Board bereits bestellt :-) )
-* Erstellung der Smartphone App als Progresive Web Anwendung, so dass sowohl die iOs als auch die Android Welt unterstützt werden kann. (Aktuell noch unklar ob das mit BLE überhaupt geht) Ansonsten dann als MAUI lösung.
-* Erweterung der Idee, so das das System auch vom Smartphone aus konfiguriert werden kann. Hier wäre vor allem das Thema Anpassung auf den Magneten ein Thema.
-* Erarbeiten von Kunststückideen
-  * Which Hand (die Mutter aller Magnettricks)
-  * Nassreddin zaubert
-  * Andere Anwendungsideen
- 
-  
