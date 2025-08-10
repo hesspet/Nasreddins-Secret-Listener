@@ -43,9 +43,9 @@ Die Anekdoten um Nasreddin reichen bis ins 13. Jahrhundert zurück und sind in v
 Mehr dazu findet man zum Beispiel hier:  
 - <https://de.wikipedia.org/wiki/Nasreddin>  
 
-## Persönliche Anekdote
+## Trivia
 
-Als der Trick **Mr. Gloves** von Juan Pablo herauskam, habe ich ihn sofort gekauft.  
+Als der Trick **Mr. Gloves** von Juan Pablo herauskam, habe ich ihn sofort gekauft.  (Review: https://www.youtube.com/watch?v=njTG4mPjbsg)
 Die Figur trägt dabei eine markante Mütze – diese hat dazu geführt, dass wir ihr spontan den Namen **Nasr ad-Din al-Quffaz (نصر الدين القفاز)** gaben, was übersetzt etwa „Nasreddin der Handschuh“ bedeutet.  
-So entstand auch der Name dieses Projekts. Und glaubt mir, er hat viel von 
+So entstand auch der Name dieses Projekts. Und glaubt mir, er hat viel von Nasreddin Hodscha wenn er loslegt.
 
