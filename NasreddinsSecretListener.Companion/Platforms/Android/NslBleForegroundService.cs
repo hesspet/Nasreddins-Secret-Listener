@@ -5,14 +5,13 @@ using AndroidX.Core.App;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using NasreddinsSecretListener.Companion.Services; // BleBackgroundSession
-using AndroidRes = NasreddinsSecretListener.Companion.Resource;
-using Android.Content.PM; // ForegroundService (TypeConnectedDevice etc.)
+using NasreddinsSecretListener.Companion.Services;   // BleBackgroundSession
+using AndroidRes = NasreddinsSecretListener.Companion.Resource; // Resource-Alias
+using Android.Content.PM;                             // ForegroundService-Enum (TypeConnectedDevice)
 
 namespace NasreddinsSecretListener.Companion;
 
 [Service(
-    // <-- sprechender Android-/Java-Name, passt zum Manifest
     Name = "de.hesspet.nsl.NslBleForegroundService",
     Exported = false
 )]
@@ -23,7 +22,6 @@ public class NslBleForegroundService : Service
 
     public static string ACTION_STOP => $"{PackageName}.action.STOP";
 
-    // Public helper zum Start/Stop aus App-Code
     public static void Start(Context context)
     {
         var i = new Intent(context, typeof(NslBleForegroundService));
@@ -46,7 +44,7 @@ public class NslBleForegroundService : Service
     public override void OnCreate()
     {
         base.OnCreate();
-        CreateNotificationChannel();
+        CreateNotificationChannel(); // minSdk=26: immer verfügbar
     }
 
     public override void OnDestroy()
@@ -67,30 +65,24 @@ public class NslBleForegroundService : Service
             return StartCommandResult.NotSticky;
         }
 
-        // Dauerhafte Notification für den Foreground Service
         var notification = new NotificationCompat.Builder(this, CHANNEL_ID)
             .SetContentTitle("NSL Companion läuft")
             .SetContentText("Bluetooth-Verbindung wird im Hintergrund gehalten.")
-            .SetSmallIcon(AndroidRes.Drawable.ic_stat_nsl) // Status-Icon aus deinen Android-Ressourcen
+            .SetSmallIcon(AndroidRes.Drawable.ic_stat_nsl)
             .SetOngoing(true)
             .SetOnlyAlertOnce(true)
             .Build();
 
-        // StartForeground – ab API 34 Typ zwingend angeben (muss zum Manifest passen)
-        if (Build.VERSION.SdkInt >= BuildVersionCodes.UpsideDownCake) // API 34+
+        // API 34+: Type an StartForeground übergeben; darunter: 2-Param-Overload
+        if (Build.VERSION.SdkInt >= BuildVersionCodes.UpsideDownCake) // 34+
         {
-            StartForeground(
-                NOTIFICATION_ID,
-                notification,
-                ForegroundService.TypeConnectedDevice
-            );
+            StartForeground(NOTIFICATION_ID, notification, ForegroundService.TypeConnectedDevice);
         }
         else
         {
             StartForeground(NOTIFICATION_ID, notification);
         }
 
-        // Worker starten (BLE-Loop)
         _cts ??= new CancellationTokenSource();
         _ = Task.Run(() => RunWorkerAsync(_cts.Token));
 
@@ -98,32 +90,30 @@ public class NslBleForegroundService : Service
     }
 
     private const string CHANNEL_ID = "nsl_ble_channel";
-
     private const int NOTIFICATION_ID = 1001;
-
     private CancellationTokenSource? _cts;
 
-    // PackageName zur Laufzeit aus dem Context (Fallback auf dein Package)
+    // PackageName aus Context; Fallback auf dein Package
     private static string PackageName => Android.App.Application.Context?.PackageName ?? "de.hesspet.nsl";
 
     private void CreateNotificationChannel()
     {
-        if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+        // minSdk = 26 → NotificationChannel API garantiert vorhanden
+        var channel = new NotificationChannel(
+            CHANNEL_ID,
+            "BLE-Hintergrunddienst",
+            NotificationImportance.Low)
         {
-            var channel = new NotificationChannel(CHANNEL_ID, "BLE-Hintergrunddienst", NotificationImportance.Low)
-            {
-                Description = "Hält die Bluetooth-Verbindung im Hintergrund."
-            };
-            var mgr = (NotificationManager?)GetSystemService(NotificationService);
-            mgr?.CreateNotificationChannel(channel);
-        }
+            Description = "Hält die Bluetooth-Verbindung im Hintergrund."
+        };
+        var mgr = (NotificationManager?)GetSystemService(NotificationService);
+        mgr?.CreateNotificationChannel(channel);
     }
 
     private async Task RunWorkerAsync(CancellationToken ct)
     {
         try
         {
-            // Starte/halte die BLE-Session im Hintergrund
             await BleBackgroundSession.StartAsync(ct);
         }
         catch (System.OperationCanceledException) { /* normal beim Stop */ }
