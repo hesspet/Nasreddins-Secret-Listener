@@ -24,9 +24,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ScanViewModel>();
         builder.Services.AddTransient<ScanPage>();
-
         builder.Services.AddTransient<StatusPage>();
-
         builder.Services.AddTransient<SettingsViewModel>();
         builder.Services.AddTransient<SettingsPage>();
         return builder.Build();
