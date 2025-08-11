@@ -1,57 +1,71 @@
-// Auto-added PermissionRequester for runtime permissions
 using Android;
 using Android.App;
+using Android.Content.PM;
 using Android.OS;
-using AndroidX.Core.App;
-using AndroidX.Core.Content;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace NasreddinsSecretListener.Companion;
+namespace NasreddinsSecretListener.Companion.Platforms.Android;
 
 public static class PermissionRequester
 {
-    static readonly string[] PreS_Required = new[] {
-        Manifest.Permission.AccessFineLocation, // für BLE <= Android 11
-    };
-
-    static readonly string[] S_Required = new[] {
-        Manifest.Permission.BluetoothScan,
-        Manifest.Permission.BluetoothConnect,
-        Manifest.Permission.BluetoothAdvertise,
-    };
-
-    static readonly string[] Tiramisu_Optional = new[] {
-        Manifest.Permission.PostNotifications,
-    };
-
     public static void RequestAllIfNecessary(Activity activity)
     {
-        var toRequest = new List<string>();
+        if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+            return; // Runtime-Permissions erst ab API 23 nötig
 
-        if (Build.VERSION.SdkInt >= BuildVersionCodes.S) // 31+
+        var required = GetRequiredPermissions();
+        var optional = GetOptionalPermissions();
+
+        var allPerms = new List<string>();
+        allPerms.AddRange(required);
+        allPerms.AddRange(optional);
+
+        var missing = new List<string>();
+
+        foreach (var p in allPerms)
         {
-            foreach (var p in S_Required)
-                if (ContextCompat.CheckSelfPermission(activity, p) != Android.Content.PM.Permission.Granted)
-                    toRequest.Add(p);
+            if (activity.CheckSelfPermission(p) != Permission.Granted)
+                missing.Add(p);
+        }
+
+        if (missing.Count > 0)
+        {
+            activity.RequestPermissions(missing.ToArray(), requestCode: 101);
+        }
+    }
+
+    private static IEnumerable<string> GetOptionalPermissions()
+    {
+        var perms = new List<string>();
+
+        // 33+ PostNotifications
+        if (OperatingSystem.IsAndroidVersionAtLeast(33))
+        {
+            perms.Add(Manifest.Permission.PostNotifications);
+        }
+
+        return perms;
+    }
+
+    private static IEnumerable<string> GetRequiredPermissions()
+    {
+        var perms = new List<string>();
+
+        // 31+ BLE Runtime-Permissions
+        if (OperatingSystem.IsAndroidVersionAtLeast(31))
+        {
+            perms.Add(Manifest.Permission.BluetoothScan);
+            perms.Add(Manifest.Permission.BluetoothConnect);
+            perms.Add(Manifest.Permission.BluetoothAdvertise);
         }
         else
         {
-            foreach (var p in PreS_Required)
-                if (ContextCompat.CheckSelfPermission(activity, p) != Android.Content.PM.Permission.Granted)
-                    toRequest.Add(p);
+            // Vor Android 12
+            perms.Add(Manifest.Permission.Bluetooth);
+            perms.Add(Manifest.Permission.BluetoothAdmin);
+            perms.Add(Manifest.Permission.AccessFineLocation); // nötig fürs Scannen
         }
 
-        if (Build.VERSION.SdkInt >= BuildVersionCodes.Tiramisu) // 33+
-        {
-            foreach (var p in Tiramisu_Optional)
-                if (ContextCompat.CheckSelfPermission(activity, p) != Android.Content.PM.Permission.Granted)
-                    toRequest.Add(p);
-        }
-
-        if (toRequest.Count > 0)
-        {
-            ActivityCompat.RequestPermissions(activity, toRequest.Distinct().ToArray(), 1001);
-        }
+        return perms;
     }
 }

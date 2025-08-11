@@ -1,13 +1,14 @@
+using System;
+using System.Runtime.Versioning;
+using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using AndroidX.Core.App;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using NasreddinsSecretListener.Companion.Services;   // BleBackgroundSession
-using AndroidRes = NasreddinsSecretListener.Companion.Resource; // Resource-Alias
-using Android.Content.PM;                             // ForegroundService-Enum (TypeConnectedDevice)
+using Android.Content.PM; // ForegroundService (TypeConnectedDevice)
+using NasreddinsSecretListener.Companion.Services;
+using AndroidRes = NasreddinsSecretListener.Companion.Resource;
 
 namespace NasreddinsSecretListener.Companion;
 
@@ -15,18 +16,26 @@ namespace NasreddinsSecretListener.Companion;
     Name = "de.hesspet.nsl.NslBleForegroundService",
     Exported = false
 )]
-public class NslBleForegroundService : Service
+[SupportedOSPlatform("android26.0")] // gesamte Klasse ist Android (ab 26)
+public sealed class NslBleForegroundService : Service
 {
-    // Actions dynamisch aus dem echten Package bauen
-    public static string ACTION_START => $"{PackageName}.action.START";
+    private const string CHANNEL_ID = "nsl_ble_channel";
+    private const int NOTIFICATION_ID = 1001;
+    private CancellationTokenSource? _cts;
 
-    public static string ACTION_STOP => $"{PackageName}.action.STOP";
+    // ---- Public API ---------------------------------------------------------
+
+    public static string ActionStart => $"{GetPackageName()}.action.START";
+    public static string ActionStop => $"{GetPackageName()}.action.STOP";
 
     public static void Start(Context context)
     {
-        var i = new Intent(context, typeof(NslBleForegroundService));
-        i.SetAction(ACTION_START);
-        if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+        if (context is null) throw new ArgumentNullException(nameof(context));
+
+        var i = new Intent(context, typeof(NslBleForegroundService)).SetAction(ActionStart);
+
+        // Analyzer-safe Guard (auch wenn minSdk=26 gesetzt ist)
+        if (OperatingSystem.IsAndroidVersionAtLeast(26))
             context.StartForegroundService(i);
         else
             context.StartService(i);
@@ -34,17 +43,19 @@ public class NslBleForegroundService : Service
 
     public static void Stop(Context context)
     {
-        var i = new Intent(context, typeof(NslBleForegroundService));
-        i.SetAction(ACTION_STOP);
+        if (context is null) throw new ArgumentNullException(nameof(context));
+        var i = new Intent(context, typeof(NslBleForegroundService)).SetAction(ActionStop);
         context.StartService(i);
     }
+
+    // ---- Lifecycle ----------------------------------------------------------
 
     public override IBinder? OnBind(Intent? intent) => null;
 
     public override void OnCreate()
     {
         base.OnCreate();
-        CreateNotificationChannel(); // minSdk=26: immer verfügbar
+        CreateNotificationChannel(); // minSdk >= 26 garantiert verfügbar
     }
 
     public override void OnDestroy()
@@ -56,25 +67,26 @@ public class NslBleForegroundService : Service
 
     public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
     {
-        var action = intent?.Action ?? ACTION_START;
+        var action = intent?.Action ?? ActionStart;
 
-        if (action == ACTION_STOP)
+        if (action == ActionStop)
         {
-            StopForeground(true);
+            // Ab 33 neuer Overload; darunter alter (nicht veralteter) bool-Overload
+            if (OperatingSystem.IsAndroidVersionAtLeast(33))
+                StopForeground(StopForegroundFlags.Remove);
+            else
+#pragma warning disable CA1422 // an dieser Stelle bewusst: nur <33
+                StopForeground(true);
+#pragma warning restore CA1422
+
             StopSelf();
             return StartCommandResult.NotSticky;
         }
 
-        var notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-            .SetContentTitle("NSL Companion läuft")
-            .SetContentText("Bluetooth-Verbindung wird im Hintergrund gehalten.")
-            .SetSmallIcon(AndroidRes.Drawable.ic_stat_nsl)
-            .SetOngoing(true)
-            .SetOnlyAlertOnce(true)
-            .Build();
+        var notification = BuildNotification()!; // nie null
 
-        // API 34+: Type an StartForeground übergeben; darunter: 2-Param-Overload
-        if (Build.VERSION.SdkInt >= BuildVersionCodes.UpsideDownCake) // 34+
+        // Ab 34 Typ mitgeben; darunter 2-Param-Overload
+        if (OperatingSystem.IsAndroidVersionAtLeast(34))
         {
             StartForeground(NOTIFICATION_ID, notification, ForegroundService.TypeConnectedDevice);
         }
@@ -89,16 +101,37 @@ public class NslBleForegroundService : Service
         return StartCommandResult.Sticky;
     }
 
-    private const string CHANNEL_ID = "nsl_ble_channel";
-    private const int NOTIFICATION_ID = 1001;
-    private CancellationTokenSource? _cts;
+    // ---- Helpers ------------------------------------------------------------
 
-    // PackageName aus Context; Fallback auf dein Package
-    private static string PackageName => Android.App.Application.Context?.PackageName ?? "de.hesspet.nsl";
+    private static string GetPackageName()
+        => Android.App.Application.Context?.PackageName ?? "de.hesspet.nsl";
+
+    private Notification? BuildNotification()
+    {
+        // NotificationCompat.Builder(...).Build() liefert eine valide Notification
+        // 'this' darf nicht null sein, aber der Compiler kann das nicht garantieren.
+        // Daher mit Null-Prüfung absichern:
+        if (this == null)
+            throw new InvalidOperationException("Service-Kontext ist null.");
+
+        // Zusätzliche Absicherung: Context explizit als non-null deklarieren
+        var context = this;
+        if (context is null)
+            throw new InvalidOperationException("Context ist null.");
+
+        // Explizit als non-null casten, um den Nullverweis-Fehler zu vermeiden
+        return new NotificationCompat.Builder(context!, CHANNEL_ID)!
+            .SetContentTitle("NSL Companion läuft")!
+            .SetContentText("Bluetooth-Verbindung wird im Hintergrund gehalten.")!
+            .SetSmallIcon(AndroidRes.Drawable.ic_stat_nsl)!
+            .SetOngoing(true)!
+            .SetOnlyAlertOnce(true)!
+            .Build()!;
+    }
 
     private void CreateNotificationChannel()
     {
-        // minSdk = 26 → NotificationChannel API garantiert vorhanden
+        // minSdk=26 → NotificationChannel existiert sicher (keine Guards nötig)
         var channel = new NotificationChannel(
             CHANNEL_ID,
             "BLE-Hintergrunddienst",
@@ -106,7 +139,9 @@ public class NslBleForegroundService : Service
         {
             Description = "Hält die Bluetooth-Verbindung im Hintergrund."
         };
+
         var mgr = (NotificationManager?)GetSystemService(NotificationService);
+        // mgr kann theoretisch null sein – daher Null-conditional:
         mgr?.CreateNotificationChannel(channel);
     }
 

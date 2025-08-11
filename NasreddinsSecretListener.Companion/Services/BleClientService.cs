@@ -4,6 +4,7 @@ using Plugin.BLE;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
+using static AndroidX.ConstraintLayout.Core.Motion.Utils.HyperSpline;
 
 namespace NasreddinsSecretListener.Companion.Services;
 
@@ -50,10 +51,69 @@ public class BleClientService : IBleClient
 
     public async Task StartScanAsync()
     {
-        StateChanged?.Invoke("Scan startet...");
+#if ANDROID
+        StateChanged?.Invoke("Scan startet…");
+
+        // Laufzeit-Berechtigungen anfragen (dein bestehender Helper)
         await PermissionHelper.EnsureBleScanAsync();
-        await _adapter.StartScanningForDevicesAsync();
-        StateChanged?.Invoke("Scan aktiv.");
+
+        // Nachprüfen – unterschiedliche Anforderungen je API-Level
+        try
+        {
+            if (OperatingSystem.IsAndroidVersionAtLeast(31))
+            {
+                // Android 12+ : BLUETOOTH_* Runtime-Permissions
+                var ctx = Android.App.Application.Context;
+                bool granted =
+                    ctx?.CheckSelfPermission(Android.Manifest.Permission.BluetoothScan) == Android.Content.PM.Permission.Granted &&
+                    ctx?.CheckSelfPermission(Android.Manifest.Permission.BluetoothConnect) == Android.Content.PM.Permission.Granted;
+
+                if (!granted)
+                {
+                    StateChanged?.Invoke("Bluetooth-Berechtigungen fehlen (Scan/Connect).");
+                    return;
+                }
+            }
+            else
+            {
+                // < Android 12 : Location genügt für BLE-Scan
+                var status = await Microsoft.Maui.ApplicationModel.Permissions
+                                  .CheckStatusAsync<Microsoft.Maui.ApplicationModel.Permissions.LocationWhenInUse>();
+                if (status != Microsoft.Maui.ApplicationModel.PermissionStatus.Granted)
+                {
+                    StateChanged?.Invoke("Standort-Berechtigung fehlt (für BLE-Scan unter Android < 12).");
+                    return;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            StateChanged?.Invoke($"Berechtigungsprüfung fehlgeschlagen: {ex.Message}");
+            return;
+        }
+
+        // Scanner starten (laufenden Scan vorher sauber stoppen)
+        try
+        {
+            if (_adapter == null)
+            {
+                StateChanged?.Invoke("BLE-Adapter nicht verfügbar.");
+                return;
+            }
+
+            if (_adapter.IsScanning)
+                await _adapter.StopScanningForDevicesAsync();
+
+            await _adapter.StartScanningForDevicesAsync();
+            StateChanged?.Invoke("Scan aktiv.");
+        }
+        catch (Exception ex)
+        {
+            StateChanged?.Invoke($"Scan-Start fehlgeschlagen: {ex.Message}");
+        }
+#else
+    StateChanged?.Invoke("BLE-Scan ist auf dieser Plattform nicht verfügbar.");
+#endif
     }
 
     public async Task StopScanAsync()
@@ -189,7 +249,6 @@ public class BleClientService : IBleClient
             _notifyChar.ValueUpdated += OnStatusUpdated;
             await _notifyChar.StartUpdatesAsync();
             StateChanged?.Invoke($"Verbunden: {dev.Name}");
-            _lastStatus = null;
             return true;
         }
         catch (Exception ex)
@@ -198,9 +257,6 @@ public class BleClientService : IBleClient
             return false;
         }
     }
-
-    // Throttle gegen Dauer-Vibrationen
-    private byte? _lastStatus;
 
     private DateTime _lastVibe = DateTime.MinValue;
     private readonly TimeSpan _vibeCooldown = TimeSpan.FromMilliseconds(800); // minimaler Abstand

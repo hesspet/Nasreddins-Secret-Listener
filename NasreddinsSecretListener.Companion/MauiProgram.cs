@@ -23,8 +23,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IBleClient, BleClientService>();
         builder.Services.AddSingleton<ScanViewModel>();
         builder.Services.AddSingleton<ScanPage>();
-        builder.Services.AddSingleton<StatusPage>();
-
+        builder.Services.AddTransient<StatusPage>();
         return builder.Build();
     }
 }
