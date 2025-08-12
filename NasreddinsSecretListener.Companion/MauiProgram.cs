@@ -21,6 +21,7 @@ public static class MauiProgram
             });
 
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
+        builder.Services.AddSingleton<IFeedbackService, FeedbackService>();
         builder.Services.AddSingleton<IBleClient, BleClientService>();
 
         builder.Services.AddSingleton<ScanViewModel>();

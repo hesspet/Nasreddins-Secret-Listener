@@ -23,7 +23,7 @@ public class BleClientService : IBleClient
 
     private readonly IBluetoothLE _ble;
     private readonly IAdapter _adapter;
-
+    private readonly IFeedbackService _feedback;
     private IDevice? _connected;
     private ICharacteristic? _notifyChar;
 
@@ -31,13 +31,14 @@ public class BleClientService : IBleClient
 
     public event Action<string>? StateChanged;
 
-    public BleClientService(ISettingsService settings)
+    public BleClientService(ISettingsService settings, IFeedbackService feedback)
     {
         _settings = settings;
         _ble = CrossBluetoothLE.Current;
         _adapter = CrossBluetoothLE.Current.Adapter;
         _adapter.DeviceDiscovered += OnDeviceDiscovered;
         _adapter.ScanTimeout = 15000;
+        _feedback = feedback;
     }
 
     private async Task<bool> ProbeHasNslServiceAsync(IDevice dev, CancellationToken ct)
@@ -203,48 +204,6 @@ public class BleClientService : IBleClient
         }
     }
 
-    private async Task VibratePatternAsync(byte status)
-    {
-        try
-        {
-            await _vibeGate.WaitAsync();
-
-            var now = DateTime.UtcNow;
-            if (now - _lastVibe < _minGap)
-                return;
-
-            // Settings aus zentralem Service
-            int ms = _settings.HapticMs;
-            bool onEarly = _settings.VibrateOnEarly;
-            bool onConfirmed = _settings.VibrateOnConfirmed;
-            bool doublePulseConf = _settings.DoublePulseForConfirmed;
-
-            if (ms < 1) ms = 150;
-
-            if (status == 0x01 && onEarly) // EARLY: 1×
-            {
-                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(ms)); } catch { }
-                await Task.Delay(150);
-            }
-            else if (status == 0x02 && onConfirmed) // CONFIRMED: 1× oder 2× je nach Setting
-            {
-                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(ms)); } catch { }
-                if (doublePulseConf)
-                {
-                    await Task.Delay(Math.Min(ms, 200));
-                    try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(ms)); } catch { }
-                }
-                await Task.Delay(150);
-            }
-
-            _lastVibe = DateTime.UtcNow;
-        }
-        finally
-        {
-            _vibeGate.Release();
-        }
-    }
-
     // Haptik: Überlappungen vermeiden + minimale Pause zwischen Mustern
     private readonly SemaphoreSlim _vibeGate = new(1, 1);
 
@@ -361,7 +320,7 @@ public class BleClientService : IBleClient
 
         // Haptik gemäß Vorgabe: 0x01 = 1x kurz, 0x02 = 2x kurz
         // Nicht blockierend ausführen (eigener Task)
-        _ = Task.Run(() => VibratePatternAsync(val));
+        _ = _feedback.NotifyStatusAsync(val);
 
         // UI-Status aktualisieren
         MainThread.BeginInvokeOnMainThread(() =>
