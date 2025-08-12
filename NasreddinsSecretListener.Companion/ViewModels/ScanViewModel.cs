@@ -10,9 +10,10 @@ namespace NasreddinsSecretListener.Companion.ViewModels;
 
 public sealed partial class ScanViewModel : ObservableObject, IDisposable
 {
-    public ScanViewModel(IBleClient ble)
+    public ScanViewModel(IBleClient ble, ISettingsService settings)
     {
         _ble = ble;
+        _settings = settings; // <— wichtig: speichern!
 
         _ble.DeviceDiscovered += Ble_DeviceDiscovered;
         _ble.StateChanged += s => Microsoft.Maui.ApplicationModel.MainThread
@@ -27,15 +28,14 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     public void Dispose()
     {
         _ble.DeviceDiscovered -= Ble_DeviceDiscovered;
-        // _ble.StateChanged ist mit Lambda abonniert; bei Bedarf IBleClient Unsubscribe-API vorsehen
+        // _ble.StateChanged via Lambda: bei Bedarf eine explizite Unsubscribe-API im IBleClient vorsehen
     }
-
-    private const string AutoConnectPrefKey = "settings.autoconnect";
 
     // ===== Internes =====
     private const string MyDeviceKey = "nsl.myDeviceId";
 
     private readonly IBleClient _ble;
+    private readonly ISettingsService _settings;
     private bool _autoConnectTried; // pro „Sicht“ nur einmal versuchen
     private string? _myDeviceId;
 
@@ -46,12 +46,14 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     [ObservableProperty] private NslDevice? selectedDevice;
     [ObservableProperty] private string statusText = "Bereit.";
 
-    // ===== Commands (Toolkit generiert automatisch XCommand-Eigenschaften) =====
-
     private void Ble_DeviceDiscovered(NslDevice dev)
     {
         Microsoft.Maui.ApplicationModel.MainThread.BeginInvokeOnMainThread(() =>
         {
+            // 🔎 Filter nur NSL-Geräte, wenn Setting aktiv ist
+            if (_settings.ShowOnlyNsl && !dev.IsNsl)
+                return;
+
             var existing = Devices.FirstOrDefault(d => d.Id == dev.Id);
             if (existing is null)
             {
@@ -143,7 +145,6 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
         }
         catch
         {
-            // z.B. wenn kein SecureStorage verfügbar ist
             _myDeviceId = null;
             HasMyDevice = false;
         }
@@ -193,7 +194,8 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     {
         await LoadMyDeviceAsync();
 
-        var wantAuto = Microsoft.Maui.Storage.Preferences.Get(AutoConnectPrefKey, false);
+        // ✅ Kein Magic-String: zentral aus SettingsService
+        var wantAuto = _settings.AutoConnectMyDevice;
         if (!wantAuto || string.IsNullOrEmpty(_myDeviceId) || IsConnected || _autoConnectTried)
             return;
 
@@ -211,6 +213,4 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
             );
         }
     }
-
-    // ===== Cleanup =====
 }
