@@ -8,10 +8,15 @@ using static AndroidX.ConstraintLayout.Core.Motion.Utils.HyperSpline;
 using Microsoft.Maui.Storage;   // Preferences
 using Microsoft.Maui.Devices;   // Vibration
 
+using Microsoft.Maui.Devices;
+
+using NasreddinsSecretListener.Companion.Services;
+
 namespace NasreddinsSecretListener.Companion.Services;
 
 public class BleClientService : IBleClient
 {
+    private readonly ISettingsService _settings;
     public static readonly Guid ServiceUuid = Guid.Parse("6E400001-B5A3-F393-E0A9-E50E24DCCA9E");
     public static readonly Guid NotifyUuid = Guid.Parse("6E400003-B5A3-F393-E0A9-E50E24DCCA9E");
     private readonly HashSet<string> _probed = new();
@@ -26,8 +31,9 @@ public class BleClientService : IBleClient
 
     public event Action<string>? StateChanged;
 
-    public BleClientService()
+    public BleClientService(ISettingsService settings)
     {
+        _settings = settings;
         _ble = CrossBluetoothLE.Current;
         _adapter = CrossBluetoothLE.Current.Adapter;
         _adapter.DeviceDiscovered += OnDeviceDiscovered;
@@ -203,25 +209,31 @@ public class BleClientService : IBleClient
         {
             await _vibeGate.WaitAsync();
 
-            // kleiner Spam-Schutz (falls sehr viele Notifies einlaufen)
             var now = DateTime.UtcNow;
             if (now - _lastVibe < _minGap)
                 return;
 
-            // Dauer aus den Settings (Default 150 ms, wie in SettingsViewModel)
-            int ms = Preferences.Get("settings.haptic.ms", 150);
-            if (ms < 1) ms = 150; // Safety
+            // Settings aus zentralem Service
+            int ms = _settings.HapticMs;
+            bool onEarly = _settings.VibrateOnEarly;
+            bool onConfirmed = _settings.VibrateOnConfirmed;
+            bool doublePulseConf = _settings.DoublePulseForConfirmed;
 
-            if (status == 0x01) // EARLY: 1× kurz
+            if (ms < 1) ms = 150;
+
+            if (status == 0x01 && onEarly) // EARLY: 1×
             {
                 try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(ms)); } catch { }
                 await Task.Delay(150);
             }
-            else if (status == 0x02) // CONFIRMED: 2× kurz
+            else if (status == 0x02 && onConfirmed) // CONFIRMED: 1× oder 2× je nach Setting
             {
                 try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(ms)); } catch { }
-                await Task.Delay(Math.Min(ms, 200)); // kleine Pause
-                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(ms)); } catch { }
+                if (doublePulseConf)
+                {
+                    await Task.Delay(Math.Min(ms, 200));
+                    try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(ms)); } catch { }
+                }
                 await Task.Delay(150);
             }
 

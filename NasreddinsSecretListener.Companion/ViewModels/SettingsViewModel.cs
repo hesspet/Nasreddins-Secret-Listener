@@ -1,28 +1,33 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Maui.Storage;
+﻿// ViewModels/SettingsViewModel.cs
+using CommunityToolkit.Mvvm.ComponentModel;
+using NasreddinsSecretListener.Companion.Services;
 
 namespace NasreddinsSecretListener.Companion.ViewModels;
 
 public sealed class SettingsViewModel : ObservableObject
 {
+    public SettingsViewModel(ISettingsService settings)
+    {
+        _settings = settings;
+        // Initial aus Service laden
+        _vibrateOnEarly = _settings.VibrateOnEarly;
+        _vibrateOnConfirmed = _settings.VibrateOnConfirmed;
+        _doublePulseForConfirmed = _settings.DoublePulseForConfirmed;
+        _autoConnectMyDevice = _settings.AutoConnectMyDevice;
+        _showOnlyNsl = _settings.ShowOnlyNsl;
+        _hapticMs = _settings.HapticMs;
+    }
+
     public bool AutoConnectMyDevice
     {
         get => _autoConnectMyDevice;
-        set
-        {
-            if (SetProperty(ref _autoConnectMyDevice, value))
-                Preferences.Set(Key_AutoConnectMyDevice, value);
-        }
+        set { if (SetProperty(ref _autoConnectMyDevice, value)) _settings.AutoConnectMyDevice = value; }
     }
 
     public bool DoublePulseForConfirmed
     {
         get => _doublePulseForConfirmed;
-        set
-        {
-            if (SetProperty(ref _doublePulseForConfirmed, value))
-                Preferences.Set(Key_DoublePulseConfirmed, value);
-        }
+        set { if (SetProperty(ref _doublePulseForConfirmed, value)) _settings.DoublePulseForConfirmed = value; }
     }
 
     public int HapticMs
@@ -30,76 +35,35 @@ public sealed class SettingsViewModel : ObservableObject
         get => _hapticMs;
         set
         {
+            if (value < 1) value = 1;
             if (SetProperty(ref _hapticMs, value))
-                Preferences.Set(Key_HapticMs, value);
+                _settings.HapticMs = value;
         }
     }
 
     public bool ShowOnlyNsl
     {
         get => _showOnlyNsl;
-        set
-        {
-            if (SetProperty(ref _showOnlyNsl, value))
-                Preferences.Set(Key_ShowOnlyNsl, value);
-        }
+        set { if (SetProperty(ref _showOnlyNsl, value)) _settings.ShowOnlyNsl = value; }
     }
 
     public bool VibrateOnConfirmed
     {
         get => _vibrateOnConfirmed;
-        set
-        {
-            if (SetProperty(ref _vibrateOnConfirmed, value))
-                Preferences.Set(Key_VibrateOnConfirmed, value);
-        }
+        set { if (SetProperty(ref _vibrateOnConfirmed, value)) _settings.VibrateOnConfirmed = value; }
     }
 
-    // --- Öffentliche Properties mit Persistenz in Preferences
     public bool VibrateOnEarly
     {
         get => _vibrateOnEarly;
-        set
-        {
-            if (SetProperty(ref _vibrateOnEarly, value))
-                Preferences.Set(Key_VibrateOnEarly, value);
-        }
+        set { if (SetProperty(ref _vibrateOnEarly, value)) _settings.VibrateOnEarly = value; }
     }
 
-    // --- Initial-Laden (ruft z.B. die Page in OnAppearing auf)
-    public void Load()
-    {
-        VibrateOnEarly = Preferences.Get(Key_VibrateOnEarly, true);
-        VibrateOnConfirmed = Preferences.Get(Key_VibrateOnConfirmed, true);
-        DoublePulseForConfirmed = Preferences.Get(Key_DoublePulseConfirmed, false);
-        AutoConnectMyDevice = Preferences.Get(Key_AutoConnectMyDevice, false);
-        ShowOnlyNsl = Preferences.Get(Key_ShowOnlyNsl, false);
-        HapticMs = Preferences.Get(Key_HapticMs, 150);
-    }
-
-    private const string Key_AutoConnectMyDevice = "settings.autoconnect";
-
-    private const string Key_DoublePulseConfirmed = "settings.vibrate.doublepulse";
-
-    private const string Key_HapticMs = "settings.haptic.ms";
-
-    private const string Key_ShowOnlyNsl = "settings.onlynsl";
-
-    private const string Key_VibrateOnConfirmed = "settings.vibrate.confirmed";
-
-    // Preference Keys
-    private const string Key_VibrateOnEarly = "settings.vibrate.early";
-
+    private readonly ISettingsService _settings;
     private bool _autoConnectMyDevice;
-
     private bool _doublePulseForConfirmed;
-
     private int _hapticMs;
-
     private bool _showOnlyNsl;
-
     private bool _vibrateOnConfirmed;
-
-    // --- Backing fields
     private bool _vibrateOnEarly;
 }
