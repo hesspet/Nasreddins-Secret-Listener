@@ -7,38 +7,38 @@
     x:DataType="viewmodels:SettingsViewModel"
     Title="Einstellungen">
 
-	<ScrollView>
-		<VerticalStackLayout Padding="16" Spacing="12">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
 
-			<Label Text="Einstellungen" FontSize="20" FontAttributes="Bold" />
+            <Label Text="Einstellungen" FontSize="20" FontAttributes="Bold" />
 
-			<Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="8">
-				<!-- VibrateOnEarly -->
-				<Label Grid.Row="0" Grid.Column="0" Text="Vibration bei Annäherung" VerticalTextAlignment="Center" />
-				<Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding VibrateOnEarly}" />
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="8">
+                <!-- VibrateOnEarly -->
+                <Label Grid.Row="0" Grid.Column="0" Text="Vibration bei Annäherung" VerticalTextAlignment="Center" />
+                <Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding VibrateOnEarly}" />
 
-				<!-- VibrateOnConfirmed -->
-				<Label Grid.Row="1" Grid.Column="0" Text="Vibration bei Magnet erkannt" VerticalTextAlignment="Center" />
-				<Switch Grid.Row="1" Grid.Column="1" IsToggled="{Binding VibrateOnConfirmed}" />
+                <!-- VibrateOnConfirmed -->
+                <Label Grid.Row="1" Grid.Column="0" Text="Vibration bei Magnet erkannt" VerticalTextAlignment="Center" />
+                <Switch Grid.Row="1" Grid.Column="1" IsToggled="{Binding VibrateOnConfirmed}" />
 
-				<!-- DoublePulseForConfirmed -->
-				<Label Grid.Row="2" Grid.Column="0" Text="Doppelpuls bei Magnet erkannt" VerticalTextAlignment="Center" />
-				<Switch Grid.Row="2" Grid.Column="1" IsToggled="{Binding DoublePulseForConfirmed}" />
+                <!-- DoublePulseForConfirmed -->
+                <Label Grid.Row="2" Grid.Column="0" Text="Doppelte Vibration bei Magnet erkannt" VerticalTextAlignment="Center" />
+                <Switch Grid.Row="2" Grid.Column="1" IsToggled="{Binding DoublePulseForConfirmed}" />
 
-				<!-- AutoConnectMyDevice -->
-				<Label Grid.Row="3" Grid.Column="0" Text="Automatisch zu 'Mein Gerät' verbinden" VerticalTextAlignment="Center" />
-				<Switch Grid.Row="3" Grid.Column="1" IsToggled="{Binding AutoConnectMyDevice}" />
+                <!-- AutoConnectMyDevice -->
+                <Label Grid.Row="3" Grid.Column="0" Text="Automatisch zu 'Mein Gerät' verbinden" VerticalTextAlignment="Center" />
+                <Switch Grid.Row="3" Grid.Column="1" IsToggled="{Binding AutoConnectMyDevice}" />
 
-				<!-- ShowOnlyNsl -->
-				<Label Grid.Row="4" Grid.Column="0" Text="Nur NSL-Geräte anzeigen" VerticalTextAlignment="Center" />
-				<Switch Grid.Row="4" Grid.Column="1" IsToggled="{Binding ShowOnlyNsl}" />
-			</Grid>
+                <!-- ShowOnlyNsl -->
+                <Label Grid.Row="4" Grid.Column="0" Text="Nur NSL-Geräte anzeigen" VerticalTextAlignment="Center" />
+                <Switch Grid.Row="4" Grid.Column="1" IsToggled="{Binding ShowOnlyNsl}" />
+            </Grid>
 
-			<!-- Haptic duration -->
-			<Slider Minimum="80"
+            <!-- Haptic duration -->
+            <Slider Minimum="80"
                     Maximum="400"
                     Value="{Binding HapticMs}" />
-			<Label Text="{Binding HapticMs, StringFormat='Haptik-Dauer: {0} ms'}" />
-		</VerticalStackLayout>
-	</ScrollView>
+            <Label Text="{Binding HapticMs, StringFormat='Vibrationsdauer: {0} ms'}" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

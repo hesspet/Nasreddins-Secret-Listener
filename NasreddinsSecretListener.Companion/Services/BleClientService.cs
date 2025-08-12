@@ -5,6 +5,8 @@ using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using static AndroidX.ConstraintLayout.Core.Motion.Utils.HyperSpline;
+using Microsoft.Maui.Storage;   // Preferences
+using Microsoft.Maui.Devices;   // Vibration
 
 namespace NasreddinsSecretListener.Companion.Services;
 
@@ -206,16 +208,20 @@ public class BleClientService : IBleClient
             if (now - _lastVibe < _minGap)
                 return;
 
+            // Dauer aus den Settings (Default 150 ms, wie in SettingsViewModel)
+            int ms = Preferences.Get("settings.haptic.ms", 150);
+            if (ms < 1) ms = 150; // Safety
+
             if (status == 0x01) // EARLY: 1× kurz
             {
-                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(120)); } catch { }
+                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(ms)); } catch { }
                 await Task.Delay(150);
             }
             else if (status == 0x02) // CONFIRMED: 2× kurz
             {
-                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(120)); } catch { }
-                await Task.Delay(120);
-                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(120)); } catch { }
+                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(ms)); } catch { }
+                await Task.Delay(Math.Min(ms, 200)); // kleine Pause
+                try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(ms)); } catch { }
                 await Task.Delay(150);
             }
 
