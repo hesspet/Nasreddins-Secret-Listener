@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NasreddinsSecretListener.Companion.Pages.LogPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:NasreddinsSecretListener.Companion.ViewModels"
+    xmlns:services="clr-namespace:NasreddinsSecretListener.Companion.Services"
+    xmlns:conv="clr-namespace:NasreddinsSecretListener.Companion"
+    x:DataType="viewmodels:LogViewModel"
+    Title="Log">
+
+    <!-- Konverter (für Tag sichtbar/unsichtbar) -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:NullToBoolConverter x:Key="NullToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Layout mit fixem Footer -->
+    <Grid RowDefinitions="Auto,*,Auto" Padding="12" RowSpacing="8">
+        <!-- Kopfzeile -->
+        <Label Text="App-Log" FontAttributes="Bold" />
+
+        <!-- Liste -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Entries}">
+            <CollectionView.ItemTemplate>
+                <!-- WICHTIG: x:DataType für compiled bindings -->
+                <DataTemplate x:DataType="services:LogEntry">
+                    <Grid Padding="4,2" ColumnDefinitions="Auto,*,Auto">
+                        <!-- Zeit -->
+                        <Label
+                            Text="{Binding Timestamp, StringFormat='{}{0:HH:mm:ss}'}"
+                            FontSize="12"
+                            TextColor="Gray" />
+
+                        <!-- Inhalt (ohne Span-IsVisible) -->
+                        <HorizontalStackLayout Grid.Column="1" Spacing="6">
+                            <Label Text="{Binding Level}" FontSize="12" FontAttributes="Bold" />
+                            <Label
+                                Text="{Binding Tag, StringFormat='[{0}]'}"
+                                FontSize="12"
+                                TextColor="Gray"
+                                IsVisible="{Binding Tag, Converter={StaticResource NullToBoolConverter}}" />
+                            <Label Text="{Binding Message}" FontSize="12" />
+                        </HorizontalStackLayout>
+
+                        <!-- Deko-Pfeil rechts -->
+                        <Label Grid.Column="2" Text="⟶" FontSize="12" Opacity="0.15" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Fußleiste: Buttons IMMER sichtbar -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+            <Label Text="{Binding Entries.Count, StringFormat='Einträge: {0}'}"
+                   VerticalTextAlignment="Center" />
+            <Button Grid.Column="1" Text="Leeren" Command="{Binding ClearCommand}" />
+            <Button Grid.Column="2" Text="Senden an…" Command="{Binding ShareCommand}" />
+        </Grid>
+    </Grid>
+</ContentPage>

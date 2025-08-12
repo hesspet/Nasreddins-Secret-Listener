@@ -24,6 +24,7 @@ public class BleClientService : IBleClient
     private readonly IBluetoothLE _ble;
     private readonly IAdapter _adapter;
     private readonly IFeedbackService _feedback;
+    private readonly ILogService _log;
     private IDevice? _connected;
     private ICharacteristic? _notifyChar;
 
@@ -31,7 +32,7 @@ public class BleClientService : IBleClient
 
     public event Action<string>? StateChanged;
 
-    public BleClientService(ISettingsService settings, IFeedbackService feedback)
+    public BleClientService(ISettingsService settings, IFeedbackService feedback, ILogService log)
     {
         _settings = settings;
         _ble = CrossBluetoothLE.Current;
@@ -39,6 +40,7 @@ public class BleClientService : IBleClient
         _adapter.DeviceDiscovered += OnDeviceDiscovered;
         _adapter.ScanTimeout = 15000;
         _feedback = feedback;
+        _log = log;
     }
 
     private async Task<bool> ProbeHasNslServiceAsync(IDevice dev, CancellationToken ct)
@@ -61,6 +63,7 @@ public class BleClientService : IBleClient
     public async Task StartScanAsync()
     {
 #if ANDROID
+        _log.Info("StartScanAsync()");
         StateChanged?.Invoke("Scan startet…");
 
         // Laufzeit-Berechtigungen anfragen (dein bestehender Helper)

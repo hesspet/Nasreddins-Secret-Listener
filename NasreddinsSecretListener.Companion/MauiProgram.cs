@@ -24,6 +24,11 @@ public static class MauiProgram
         builder.Services.AddSingleton<IFeedbackService, FeedbackService>();
         builder.Services.AddSingleton<IBleClient, BleClientService>();
 
+        builder.Services.AddSingleton<ILogService, LogService>();
+
+        builder.Services.AddTransient<LogViewModel>();
+        builder.Services.AddTransient<LogPage>();
+
         builder.Services.AddSingleton<ScanViewModel>();
         builder.Services.AddTransient<ScanPage>();
         builder.Services.AddTransient<StatusPage>();

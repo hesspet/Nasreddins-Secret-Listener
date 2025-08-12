@@ -10,5 +10,6 @@
         <ShellContent Title="Scan"   Route="scan" ContentTemplate="{DataTemplate pages:ScanPage}" />
         <ShellContent Title="Status"  Route="status" ContentTemplate="{DataTemplate pages:StatusPage}" />
         <ShellContent Title="Setup" Route="settings" ContentTemplate="{DataTemplate pages:SettingsPage}" />
+        <ShellContent Title="Log"    ContentTemplate="{DataTemplate pages:LogPage}" />
     </TabBar>
 </Shell>
