@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36310.24
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BlinkRGB_Wemos Lolin C3 PICO ESP32-C3", "BlinkRGB_Wemos Lolin C3 PICO ESP32-C3.vcxproj", "{684779EE-E0DC-62B5-53D6-F25D1A0DC546}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|ARM64 = Debug|ARM64
+		Release|ARM = Release|ARM
+		Release|ARM64 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Debug|ARM.ActiveCfg = Debug|ARM
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Debug|ARM.Build.0 = Debug|ARM
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Debug|ARM.Deploy.0 = Debug|ARM
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Debug|ARM64.Build.0 = Debug|ARM64
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Release|ARM.ActiveCfg = Release|ARM
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Release|ARM.Build.0 = Release|ARM
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Release|ARM.Deploy.0 = Release|ARM
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Release|ARM64.ActiveCfg = Release|ARM64
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Release|ARM64.Build.0 = Release|ARM64
+		{684779EE-E0DC-62B5-53D6-F25D1A0DC546}.Release|ARM64.Deploy.0 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C999F3B1-9C32-4F8F-A224-298CA698B972}
+	EndGlobalSection
+EndGlobal
