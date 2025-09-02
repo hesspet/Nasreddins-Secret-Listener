@@ -1,0 +1,31 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="de.hesspet.nsl">
+
+  <!-- BLE & Foreground-Service Berechtigungen -->
+  <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" tools:targetApi="31" />
+  <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" tools:targetApi="31" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" tools:targetApi="31" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" tools:targetApi="34" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:targetApi="33" />
+  <!-- Für Android 11 und älter (BLE-Scan brauchte Location) -->
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="30" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+<application
+    android:allowBackup="true"
+    android:usesCleartextTraffic="true"
+    android:label="NSL Companion"
+    android:icon="@mipmap/appicon"
+    android:roundIcon="@mipmap/appicon"
+    tools:replace="android:icon,android:roundIcon">
+
+  <!-- Ersetze/übersteuere den vom Build erzeugten Service-Tag -->
+  <service
+      android:name="de.hesspet.nsl.NslBleForegroundService"
+      android:exported="false"
+      android:foregroundServiceType="connectedDevice"
+      tools:node="replace" />
+</application>
+</manifest>

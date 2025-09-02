@@ -21,5 +21,8 @@
     <ClInclude Include="__vm\.BlinkRGB_Wemos Lolin C3 PICO ESP32-C3.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="__vm\.BlinkRGB_Wemos Lolin C3 PICO ESP32-C3_1.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.BlinkRGB_Wemos Lolin C3 PICO ESP32-C3.vsarduino.h" />
+    <ClInclude Include="__vm\.BlinkRGB_Wemos Lolin C3 PICO ESP32-C3_1.vsarduino.h" />
   </ItemGroup>
   <PropertyGroup>
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
@@ -93,7 +94,7 @@
       <CLanguageStandard>gnu11</CLanguageStandard>
       <CAdditionalWarning />
       <CppAdditionalWarning />
-      <ForcedIncludeFiles>c:\program files\microsoft visual studio\2022\community\common7\ide\extensions\1k0ittsa.sce\Micro Platforms\default\vm-intelli-pre.h;C:\Users\hesspet.TALOSLITTLESERV\AppData\Local\Temp\VMBuilds\BlinkRGB_Wemos Lolin C3 PICO ESP32-C3\esp32_lolin_c3_pico\Release\.vmintelli\04c6bd140d27cb63d4d64b1415705241\vm-intelli-gcc-defines.h;c:\program files\microsoft visual studio\2022\community\common7\ide\extensions\1k0ittsa.sce\Micro Platforms\default\vm-intelli-post.h;$(ProjectDir)__vm\.BlinkRGB_Wemos Lolin C3 PICO ESP32-C3.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles>c:\program files\microsoft visual studio\2022\community\common7\ide\extensions\1k0ittsa.sce\Micro Platforms\default\vm-intelli-pre.h;C:\Users\hesspet.TALOSLITTLESERV\AppData\Local\Temp\VMBuilds\BlinkRGB_Wemos Lolin C3 PICO ESP32-C3\esp32_lolin_c3_pico\Release\.vmintelli\244b067dacea346e2db9029661464bce\vm-intelli-gcc-defines.h;c:\program files\microsoft visual studio\2022\community\common7\ide\extensions\1k0ittsa.sce\Micro Platforms\default\vm-intelli-post.h;$(ProjectDir)__vm\.BlinkRGB_Wemos Lolin C3 PICO ESP32-C3_1.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <UndefineAllPreprocessorDefinitions>true</UndefineAllPreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <PreprocessorDefinitions>_VMICRO_INTELLISENSE;__2411_esp32c3__;__2411_ESP32C3__;F_CPU=160000000L;ARDUINO=108010;ARDUINO_LOLIN_C3_PICO;ARDUINO_ARCH_ESP32;ARDUINO_BOARD=LOLIN_C3_PICO;ARDUINO_VARIANT=lolin_c3_pico;ARDUINO_PARTITION_default;ARDUINO_HOST_OS=windows;ARDUINO_FQBN={build.fqbn};ESP32=ESP32;CORE_DEBUG_LEVEL=0;ARDUINO_USB_MODE=1;ARDUINO_USB_CDC_ON_BOOT=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
