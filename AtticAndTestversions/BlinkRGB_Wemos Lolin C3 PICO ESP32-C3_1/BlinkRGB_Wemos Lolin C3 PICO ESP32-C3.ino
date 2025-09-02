@@ -19,13 +19,24 @@
 #define DELAY 500
 
 void setup() {
-
+    Serial.begin(115200);
 }
 
 
 void loop() {
 
 #ifdef RGB_BUILTIN
+
+#if ARDUINO_LOLIN_C3_PICO
+    Serial.println("Ermitteltes Board: LOLIN_C3_PICO" );
+#endif
+
+#if defined(ARDUINO_BOARD)
+    Serial.println(ARDUINO_BOARD);
+#else
+    Serial.println("Unbekanntes Board");
+#endif
+
   // digitalWrite(RGB_BUILTIN, HIGH);   // Turn the RGB LED white
   // delay(1000);
   digitalWrite(RGB_BUILTIN, LOW);    // Turn the RGB LED off

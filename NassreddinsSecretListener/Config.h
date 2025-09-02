@@ -1,9 +1,18 @@
 #pragma once
 
-// --------- Hardware-Pins (M5Stack Atom Lite) ---------
-#define ATOM_LED_PIN      27     // SK6812 data pin
-#define ATOM_NUM_LEDS     1
-#define ATOM_BTN_PIN      39     // Input-only, active LOW
+// --------- Hardware-Pins ---------
+
+#ifdef ARDUINO_LOLIN_C3_PICO
+
+#define BTN_PIN 9 
+
+#else
+
+#define ATOM_LED_PIN 27     // SK6812 data pin
+#define ATOM_NUM_LEDS 1
+#define BTN_PIN 39     // Input-only, active LOW
+
+#endif
 
 // --------- BLE (GATT) ---------
 #define BLE_DEVICE_NAME   "Nasreddins Secret Listener"

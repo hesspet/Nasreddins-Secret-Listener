@@ -53,3 +53,4 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 /NasreddinsSecretListener.Companion/.vs
+/NassreddinsSecretListener/.vs/NassreddinsSecretListener

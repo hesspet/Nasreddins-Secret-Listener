@@ -75,7 +75,7 @@ Anpassbare Parameter (siehe Config.h):
 ================================================================================
 */
 
-
+#include <NimBLEDevice.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_HMC5883_U.h>
@@ -100,6 +100,12 @@ MagnetState gLastSent = MagnetState::None;
 void setup() {
   Serial.begin(115200);
   delay(100);
+
+#if ARDUINO_LOLIN_C3_PICO
+  Serial.println("Ermitteltes Board: LOLIN_C3_PICO");
+#else
+  Serial.println("Unbekanntes Board");
+#endif
 
   gLed.begin();
   gBtn.begin();

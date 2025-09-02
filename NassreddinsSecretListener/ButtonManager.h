@@ -17,5 +17,5 @@ private:
   uint32_t pressAccum=0;
   bool reported=false;
 
-  inline bool readPressed() { return digitalRead(ATOM_BTN_PIN) == LOW; } // active LOW
+  inline bool readPressed() { return digitalRead(BTN_PIN) == LOW; } // active LOW
 };
