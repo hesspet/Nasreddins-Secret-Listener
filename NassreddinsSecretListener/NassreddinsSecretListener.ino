@@ -118,6 +118,8 @@ void setup() {
 	Serial.println("gBle.begin");
 	gBle.begin(BLE_DEVICE_NAME);
 
+	// TODO bei Störung Orange blinken
+
 	if (!gDetector.begin()) {
 		Serial.println("Magnetometer not found!");
 		gLed.flashBlue(3, 80, 80);
