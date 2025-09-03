@@ -2,7 +2,7 @@
 ================================================================================
   Project: Nasreddin's Secret Listener (ESP32 / M5Stack Atom Lite + HMC5883L)
   Modules: BLE (NimBLE), LED Display (FastLED), Button Manager (DeepSleep),
-           MagnetDetector (B² with dual-EMA, trend + look-ahead, auto-recalib)
+		   MagnetDetector (B² with dual-EMA, trend + look-ahead, auto-recalib)
   File:    NassreddinsSecretListener.ino   (main wiring)
 ================================================================================
 */
@@ -27,40 +27,40 @@ Modulaufbau:
 
 Ablauf:
   1. Startphase (Baseline):
-     - Ermittelt über ~3 s die "Grundfeldstärke" des Magnetfelds
-       (Erdfeld + Umgebung) ohne Magnet in der Nähe.
-     - Speichert diesen Wert als B0 (µT) und B0² (µT²).
+	 - Ermittelt über ~3 s die "Grundfeldstärke" des Magnetfelds
+	   (Erdfeld + Umgebung) ohne Magnet in der Nähe.
+	 - Speichert diesen Wert als B0 (µT) und B0² (µT²).
   2. Messphase:
-     - Liest den HMC5883L mit ca. 50 Hz aus.
-     - Berechnet die Feldstärke B² = x² + y² + z².
-     - Führt zwei Filter:
-         * SLOW-EMA: bildet langsam den Hintergrund ab.
-         * FAST-EMA: reagiert schnell auf Änderungen (Annäherung).
-     - Ermittelt Trend = FAST − SLOW.
-     - Errechnet eine Vorhersage (Look-Ahead), ob in Kürze eine
-       Erkennungsschwelle erreicht wird.
+	 - Liest den HMC5883L mit ca. 50 Hz aus.
+	 - Berechnet die Feldstärke B² = x² + y² + z².
+	 - Führt zwei Filter:
+		 * SLOW-EMA: bildet langsam den Hintergrund ab.
+		 * FAST-EMA: reagiert schnell auf Änderungen (Annäherung).
+	 - Ermittelt Trend = FAST − SLOW.
+	 - Errechnet eine Vorhersage (Look-Ahead), ob in Kürze eine
+	   Erkennungsschwelle erreicht wird.
   3. Statuslogik:
-     - EARLY: Magnet naht (starker Trend oder Look-Ahead nahe Schwelle).
-     - CONFIRMED: Magnet sicher erkannt (absolute Schwelle über Baseline).
-     - Debounce-Zähler sorgen für stabile Erkennung.
-     - Auto-Rekalibrierung passt Baseline an, wenn lange kein Magnet da ist.
+	 - EARLY: Magnet naht (starker Trend oder Look-Ahead nahe Schwelle).
+	 - CONFIRMED: Magnet sicher erkannt (absolute Schwelle über Baseline).
+	 - Debounce-Zähler sorgen für stabile Erkennung.
+	 - Auto-Rekalibrierung passt Baseline an, wenn lange kein Magnet da ist.
   4. Ausgabe / Feedback:
-     - RGB-LED des Atom Lite zeigt Status:
-         * Rot   = kein Magnet (NONE)
-         * Gelb  = Magnet naht (EARLY)
-         * Grün  = Magnet erkannt (CONFIRMED)
-     - BLE-Notify sendet Status als Byte an verbundenes Smartphone.
+	 - RGB-LED des Atom Lite zeigt Status:
+		 * Rot   = kein Magnet (NONE)
+		 * Gelb  = Magnet naht (EARLY)
+		 * Grün  = Magnet erkannt (CONFIRMED)
+	 - BLE-Notify sendet Status als Byte an verbundenes Smartphone.
   5. Stromsparmodus:
-     - 7 s Long-Press auf den Atom-Button → LED blinkt blau → DeepSleep.
-     - Aufwecken durch erneuten Tastendruck.
+	 - 7 s Long-Press auf den Atom-Button → LED blinkt blau → DeepSleep.
+	 - Aufwecken durch erneuten Tastendruck.
 
 Wichtige Funktionen:
   - setup(): Initialisiert Sensor, LED, BLE, Button und ermittelt Baseline.
   - loop():
-      * ButtonManager::update(): prüft Long-Press → ggf. DeepSleep.
-      * MagnetDetector::tick(): aktualisiert Filter und Status.
-      * LedDisplay::showState(): setzt LED passend zum Status.
-      * BleService::notify(): sendet Status an Smartphone.
+	  * ButtonManager::update(): prüft Long-Press → ggf. DeepSleep.
+	  * MagnetDetector::tick(): aktualisiert Filter und Status.
+	  * LedDisplay::showState(): setzt LED passend zum Status.
+	  * BleService::notify(): sendet Status an Smartphone.
   - MagnetDetector::recalcThresholds(): berechnet alle Schwellwerte aus Baseline.
   - ButtonManager::enterDeepSleep(): versetzt System in tiefsten Schlaf.
 
@@ -87,6 +87,7 @@ Anpassbare Parameter (siehe Config.h):
 #include "MagnetDetector.h"
 
 // --- Modules ---
+
 Adafruit_HMC5883_Unified gMag(12345);
 LedDisplay    gLed;
 BleService    gBle;
@@ -94,57 +95,70 @@ ButtonManager gBtn;
 MagnetDetector gDetector(gMag);
 
 // --- Runtime ---
+
 uint32_t gLastMs = 0;
 MagnetState gLastSent = MagnetState::None;
 
 void setup() {
-  Serial.begin(115200);
-  delay(100);
+	Serial.begin(115200);
+	delay(100);
 
-#if ARDUINO_LOLIN_C3_PICO
-  Serial.println("Ermitteltes Board: LOLIN_C3_PICO");
-#else
-  Serial.println("Unbekanntes Board");
+#ifdef ARDUINO_LOLIN_C3_PICO
+	Serial.println("Ermitteltes Board: LOLIN_C3_PICO");
+#else 
+	Serial.println("Unbekanntes Board"); // ARDUINO_M5ATOM
 #endif
 
-  gLed.begin();
-  gBtn.begin();
-  gBle.begin(BLE_DEVICE_NAME);
+	Serial.println("gLed.begin");
+	gLed.begin();
 
-  if (!gDetector.begin()) {
-    Serial.println("Magnetometer not found!");
-    gLed.flashBlue(3, 80, 80);
-    while (1) delay(200);
-  }
+	Serial.println("gBtn.begin");
+	gBtn.begin();
 
-  gLed.showState(MagnetState::None);
-  gBle.notify(MagnetState::None);
-  gLastMs = millis();
+	Serial.println("gBle.begin");
+	gBle.begin(BLE_DEVICE_NAME);
+
+	if (!gDetector.begin()) {
+		Serial.println("Magnetometer not found!");
+		gLed.flashBlue(3, 80, 80);
+		while (1) delay(200);
+	}
+
+	Serial.println("showing states");
+
+	gLed.showState(MagnetState::None);
+	gBle.notify(MagnetState::None);
+	gLastMs = millis();
 }
 
 void loop() {
-  uint32_t now = millis();
-  uint32_t dt  = now - gLastMs; if (dt==0) dt=1; gLastMs = now;
 
-  // Button: 7s long press → deep sleep
-  if (gBtn.update(dt)) {
-    // Optional: gBle.stop();
-    ButtonManager::enterDeepSleep(gLed);
-  }
+	uint32_t now = millis();
+	uint32_t dt = now - gLastMs; if (dt == 0) dt = 1; gLastMs = now;
 
-  // Magnet detection
-  MagnetState st = gDetector.tick(dt);
+#ifdef FEATURE_DEEPSLEEP
+	// Button: 7s long press → deep sleep
+	if (gBtn.update(dt)) {
+		gBle.stop();
+		Serial.println("enterDeepSleep...");
+		ButtonManager::enterDeepSleep(gLed);
+	}
+#endif
 
-  // Update LED/BLE on state change
-  static MagnetState lastShown = MagnetState::None;
-  if (st != lastShown) {
-    lastShown = st;
-    gLed.showState(st);
-  }
-  if (st != gLastSent) {
-    gLastSent = st;
-    gBle.notify(st);
-  }
+	// Magnet detection
+	MagnetState st = gDetector.tick(dt);
 
-  delay(20); // ~50 Hz
+	// Update LED/BLE on state change
+	static MagnetState lastShown = MagnetState::None;
+	if (st != lastShown) {
+		lastShown = st;
+		gLed.showState(st);
+	}
+
+	if (st != gLastSent) {
+		gLastSent = st;
+		gBle.notify(st);
+	}
+
+	delay(20); // ~50 Hz
 }

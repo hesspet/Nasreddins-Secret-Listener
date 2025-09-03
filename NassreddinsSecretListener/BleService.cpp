@@ -41,6 +41,6 @@ void BleService::notify(MagnetState s) {
 }
 
 void BleService::stop() {
-	if (server) server->stopAdvertising(); // correct API; server->stop() does not exist
+	if (server) server->stopAdvertising(); 
 	NimBLEDevice::deinit(true);
 }

@@ -2,7 +2,12 @@
 #include <pins_arduino.h>
 #include "LedDisplay.h"
 
+#undef RGB_BRIGHTNESS
+#define RGB_BRIGHTNESS LED_BRIGHTNESS
+
 void LedDisplay::begin() {
+
+	Serial.println("LedDisplay::begin()");
 
 #ifdef ARDUINO_LOLIN_C3_PICO
 	off();
@@ -15,10 +20,21 @@ void LedDisplay::begin() {
 #ifdef ARDUINO_LOLIN_C3_PICO
 void LedDisplay::showState(MagnetState s)
 {
+	// HACK - RGB Led Reihenfolge stimmt nicht.
+
 	switch (s) {
-	case MagnetState::Confirmed: rgbLedWrite(RGB_BUILTIN, 0, RGB_BRIGHTNESS, 0); break; // Green 
-	case MagnetState::Early:     rgbLedWrite(RGB_BUILTIN, RGB_BRIGHTNESS, RGB_BRIGHTNESS, 0);  break; // Yellow
-	default:                     rgbLedWrite(RGB_BUILTIN, RGB_BRIGHTNESS, 0, 0); break; // Red
+	case MagnetState::Confirmed: // Green 
+		rgbLedWrite(RGB_BUILTIN, RGB_BRIGHTNESS, 0, 0); 
+		Serial.println("State:Confirmed");
+		break; 
+	case MagnetState::Early: // Yellow     
+		rgbLedWrite(RGB_BUILTIN, RGB_BRIGHTNESS, RGB_BRIGHTNESS, 0);  
+		Serial.println("State:Early");
+		break; 
+	default: // Red                    
+		rgbLedWrite(RGB_BUILTIN, 0, RGB_BRIGHTNESS, 0); 		
+		Serial.println("State:None");
+		break; 
 	}
 }
 
@@ -34,6 +50,7 @@ void LedDisplay::flashBlue(uint8_t times, uint16_t onMs, uint16_t offMs)
 
 void LedDisplay::off() 
 {
+	Serial.println("LED off");
 	rgbLedWrite(RGB_BUILTIN, 0, 0, 0); // Off / black 
 }
 
