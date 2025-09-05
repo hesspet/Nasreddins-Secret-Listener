@@ -81,6 +81,7 @@ Anpassbare Parameter (siehe Config.h):
 #include <Adafruit_HMC5883_U.h>
 
 #include "Config.h"
+#include "MagnetState.h"
 #include "LedDisplay.h"
 #include "BleService.h"
 #include "ButtonManager.h"
@@ -105,18 +106,21 @@ void setup() {
 
 #ifdef ARDUINO_LOLIN_C3_PICO
 	Serial.println("Ermitteltes Board: LOLIN_C3_PICO");
-#else 
+#else
 	Serial.println("Unbekanntes Board"); // ARDUINO_M5ATOM
 #endif
 
 	Serial.println("gLed.begin");
 	gLed.begin();
+	gLed.LedRed(); delay(500);
 
 	Serial.println("gBtn.begin");
 	gBtn.begin();
+	gLed.LedPink(); delay(500);
 
 	Serial.println("gBle.begin");
 	gBle.begin(BLE_DEVICE_NAME);
+	gLed.LedBlue(); delay(500);
 
 	// TODO bei Störung Orange blinken
 
@@ -126,15 +130,18 @@ void setup() {
 		while (1) delay(200);
 	}
 
+	gLed.LedYellow(); delay(500);
 	Serial.println("showing states");
 
-	gLed.showState(MagnetState::None);
+	gLed.LedRed(); delay(500);
+
+	gLed.showState(MagnetState::None, gBle.isConnected());
 	gBle.notify(MagnetState::None);
+
 	gLastMs = millis();
 }
 
 void loop() {
-
 	uint32_t now = millis();
 	uint32_t dt = now - gLastMs; if (dt == 0) dt = 1; gLastMs = now;
 
@@ -154,7 +161,7 @@ void loop() {
 	static MagnetState lastShown = MagnetState::None;
 	if (st != lastShown) {
 		lastShown = st;
-		gLed.showState(st);
+		gLed.showState(st, gBle.isConnected());
 	}
 
 	if (st != gLastSent) {

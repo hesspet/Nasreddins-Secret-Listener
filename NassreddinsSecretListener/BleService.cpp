@@ -11,7 +11,8 @@ void BleService::begin(const char* deviceName) {
 	NimBLEDevice::setSecurityAuth(false, false, true);
 
 	server = NimBLEDevice::createServer();
-	server->setCallbacks(new ServerCbs());
+	_serverCbs = new ServerCbs();
+	server->setCallbacks(_serverCbs);
 
 	auto* svc = server->createService(BLE_SERVICE_UUID);
 	notifyChar = svc->createCharacteristic(BLE_NOTIFY_UUID, NIMBLE_PROPERTY::NOTIFY);
@@ -28,8 +29,10 @@ void BleService::begin(const char* deviceName) {
 void BleService::ServerCbs::onConnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo) {
 	// Optional: continue advertising to allow reconnects/others
 	NimBLEDevice::getAdvertising()->start();
+	connected = true;
 }
 void BleService::ServerCbs::onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reason) {
+	connected = false;
 	NimBLEDevice::getAdvertising()->start();
 }
 
@@ -41,6 +44,6 @@ void BleService::notify(MagnetState s) {
 }
 
 void BleService::stop() {
-	if (server) server->stopAdvertising(); 
+	if (server) server->stopAdvertising();
 	NimBLEDevice::deinit(true);
 }

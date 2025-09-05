@@ -5,24 +5,25 @@
 #include <FastLED.h>
 #endif
 #include "Config.h"
+#include "MagnetState.h"
 
-// Device state for LED & BLE
-enum class MagnetState : uint8_t { 
-  None=0x00, 
-  Early=0x01, 
-  Confirmed=0x02 
-  };
-
-class LedDisplay {
-
+class LedDisplay
+{
 public:
-  void begin();
-  void showState(MagnetState s);
-  void flashBlue(uint8_t times=2, uint16_t onMs=120, uint16_t offMs=100);
-  void off();
 
+	void begin();
+	void showState(MagnetState s, bool isConnectedToBleClient);
+	void flashBlue(uint8_t times = 2, uint16_t onMs = 120, uint16_t offMs = 100);
+	void off();
+
+	void LedRed();
+	void LedBlue();
+	void LedGreen();
+	void LedYellow();
+	void LedPink();
 private:
+
 #ifndef ARDUINO_LOLIN_C3_PICO
-  CRGB leds[ATOM_NUM_LEDS];
+	CRGB leds[ATOM_NUM_LEDS];
 #endif
 };
