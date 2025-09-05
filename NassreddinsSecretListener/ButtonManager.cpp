@@ -1,7 +1,6 @@
 #include "esp_sleep.h"
 #include "ButtonManager.h"
 
-
 #if CONFIG_IDF_TARGET_ESP32 || CONFIG_IDF_TARGET_ESP32S2 || CONFIG_IDF_TARGET_ESP32S3
 // EXT1 verfügbar (mehrere RTC-GPIOs über Bitmaske)
 static inline void enable_btn_wakeup(uint8_t pin) {
@@ -20,16 +19,18 @@ static inline void enable_btn_wakeup(uint8_t pin) {
 #error "Dieses Ziel unterstützt die verwendete Wakeup-Methode nicht."
 #endif
 
-void ButtonManager::begin() {
+void ButtonManager::begin()
+{
+	Serial.println("ButtonManager::begin()");
+
 	// pinMode(BTN_PIN, INPUT); // input-only, external pullups on board
 	pinMode(BTN_PIN, REQUIRED_PINMODE);
 	lastStable = false; debounceMs = 0; pressAccum = 0; reported = false;
 }
 
 bool ButtonManager::update(uint32_t dtMs) {
-
 	bool pressed = readPressed();
-		
+
 	if (pressed != lastStable) {
 		Serial.print("update button=> "); Serial.println(pressed);
 		debounceMs += dtMs;

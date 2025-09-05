@@ -5,7 +5,8 @@
 #undef RGB_BRIGHTNESS
 #define RGB_BRIGHTNESS LED_BRIGHTNESS
 
-void LedDisplay::begin() {
+void LedDisplay::begin()
+{
 	Serial.println("LedDisplay::begin()");
 
 #ifdef ARDUINO_LOLIN_C3_PICO
@@ -65,23 +66,44 @@ void LedDisplay::off()
 
 void LedDisplay::LedRed()
 {
-	rgbLedWrite(RGB_BUILTIN, 0, RGB_BRIGHTNESS, 0);
+	Serial.println("LED RED");
+	float scale = RGB_BRIGHTNESS / 255.0;
+	rgbLedWriteOrdered(RGB_BUILTIN, LED_COLOR_ORDER_RGB, 255 * scale, 0, 0);
 }
+
 void LedDisplay::LedBlue()
 {
-	rgbLedWrite(RGB_BUILTIN, 0, 0, RGB_BRIGHTNESS);
+	Serial.println("LED BLUE");
+	float scale = RGB_BRIGHTNESS / 255.0;
+	rgbLedWriteOrdered(RGB_BUILTIN, LED_COLOR_ORDER_RGB, 0, 0, 255 * scale);
 }
+
 void LedDisplay::LedGreen()
 {
-	rgbLedWrite(RGB_BUILTIN, RGB_BRIGHTNESS, 0, 0);
+	Serial.println("LED GREEN");
+	float scale = RGB_BRIGHTNESS / 255.0;
+	rgbLedWriteOrdered(RGB_BUILTIN, LED_COLOR_ORDER_RGB, 0, 255 * scale, 0);
 }
+
 void LedDisplay::LedYellow()
 {
-	rgbLedWrite(RGB_BUILTIN, RGB_BRIGHTNESS, RGB_BRIGHTNESS, 0);
+	Serial.println("LED YELLOW");
+	float scale = RGB_BRIGHTNESS / 255.0;
+	rgbLedWriteOrdered(RGB_BUILTIN, LED_COLOR_ORDER_RGB, 255 * scale, 255 * scale, 0);
 };
+
 void LedDisplay::LedPink()
 {
-	rgbLedWrite(RGB_BUILTIN, RGB_BRIGHTNESS, 0, RGB_BRIGHTNESS);
+	Serial.println("LED PINK");
+	float scale = RGB_BRIGHTNESS / 255.0;
+	rgbLedWriteOrdered(RGB_BUILTIN, LED_COLOR_ORDER_RGB, 255 * scale, 105 * scale, 180 * scale);
+}
+
+void LedDisplay::LedOrange()
+{
+	Serial.println("LED ORANGE");
+	float scale = RGB_BRIGHTNESS / 255.0;
+	rgbLedWriteOrdered(RGB_BUILTIN, LED_COLOR_ORDER_RGB, 255 * scale, 165 * scale, 0 * scale);
 }
 
 #else

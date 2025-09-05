@@ -100,7 +100,8 @@ MagnetDetector gDetector(gMag);
 uint32_t gLastMs = 0;
 MagnetState gLastSent = MagnetState::None;
 
-void setup() {
+void setup()
+{
 	Serial.begin(115200);
 	delay(100);
 
@@ -110,38 +111,38 @@ void setup() {
 	Serial.println("Unbekanntes Board"); // ARDUINO_M5ATOM
 #endif
 
-	Serial.println("gLed.begin");
 	gLed.begin();
-	gLed.LedRed(); delay(500);
+	delay(100);
+	gLed.LedOrange(); delay(500);
 
-	Serial.println("gBtn.begin");
 	gBtn.begin();
-	gLed.LedPink(); delay(500);
+	gLed.LedPink(); delay(000);
 
-	Serial.println("gBle.begin");
+	gLed.LedBlue();
 	gBle.begin(BLE_DEVICE_NAME);
-	gLed.LedBlue(); delay(500);
 
 	// TODO bei Störung Orange blinken
 
 	if (!gDetector.begin()) {
-		Serial.println("Magnetometer not found!");
+		Serial.println("ERROR: Magnetometer not found!");
 		gLed.flashBlue(3, 80, 80);
 		while (1) delay(200);
 	}
 
+	// einfach nur zur "show"
 	gLed.LedYellow(); delay(500);
-	Serial.println("showing states");
-
 	gLed.LedRed(); delay(500);
 
 	gLed.showState(MagnetState::None, gBle.isConnected());
 	gBle.notify(MagnetState::None);
 
 	gLastMs = millis();
+
+	Serial.println("start loop() - now showing states...");
 }
 
-void loop() {
+void loop()
+{
 	uint32_t now = millis();
 	uint32_t dt = now - gLastMs; if (dt == 0) dt = 1; gLastMs = now;
 

@@ -1,6 +1,9 @@
 #include "BleService.h"
 
-void BleService::begin(const char* deviceName) {
+void BleService::begin(const char* deviceName)
+{
+	Serial.println("BleService::begin()");
+
 	NimBLEDevice::init(deviceName);
 #ifdef ESP_PWR_LVL_P7
 	NimBLEDevice::setPower(ESP_PWR_LVL_P7); // bei Atom
@@ -26,24 +29,36 @@ void BleService::begin(const char* deviceName) {
 }
 
 // Callbacks implementations
-void BleService::ServerCbs::onConnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo) {
+void BleService::ServerCbs::onConnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo)
+{
+	Serial.println("BleService::onConnect()");
+
 	// Optional: continue advertising to allow reconnects/others
 	NimBLEDevice::getAdvertising()->start();
 	connected = true;
 }
-void BleService::ServerCbs::onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reason) {
+void BleService::ServerCbs::onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reason)
+{
+	Serial.println("BleService::onDisconnect()");
+
 	connected = false;
 	NimBLEDevice::getAdvertising()->start();
 }
 
 void BleService::notify(MagnetState s) {
 	if (!notifyChar) return;
+
+	Serial.println("BleService::notify()");
+
 	uint8_t v = static_cast<uint8_t>(s);
 	notifyChar->setValue(&v, 1);
 	notifyChar->notify();
 }
 
-void BleService::stop() {
+void BleService::stop()
+{
+	Serial.println("BleService::stop()");
+
 	if (server) server->stopAdvertising();
 	NimBLEDevice::deinit(true);
 }

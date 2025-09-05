@@ -21,6 +21,8 @@ public:
 	void LedGreen();
 	void LedYellow();
 	void LedPink();
+	void LedOrange();
+
 private:
 
 #ifndef ARDUINO_LOLIN_C3_PICO

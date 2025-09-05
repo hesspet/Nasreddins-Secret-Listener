@@ -6,8 +6,8 @@
 
 #ifdef ARDUINO_LOLIN_C3_PICO
 
-#define BTN_PIN 9 
-#define LED_BRIGHTNESS 16
+#define BTN_PIN 9
+#define LED_BRIGHTNESS 8
 #define REQUIRED_PINMODE INPUT_PULLUP
 
 #endif // ARDUINO_LOLIN_C3_PICO
@@ -53,7 +53,7 @@
 // --------- Button / DeepSleep ---------
 
 /*
-* Feature FEATURE_DEEPSLEEP setzen, wenn der Button den DeepSleep nach einiger Zeit 
+* Feature FEATURE_DEEPSLEEP setzen, wenn der Button den DeepSleep nach einiger Zeit
 * auslösen soll.
 */
 #define FEATURE_DEEPSLEEP
