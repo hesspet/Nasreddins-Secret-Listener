@@ -2,6 +2,7 @@ using CommunityToolkit.Maui;
 using NasreddinsSecretListener.Companion.Pages;
 using NasreddinsSecretListener.Companion.Services;
 using NasreddinsSecretListener.Companion.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace NasreddinsSecretListener.Companion;
 
@@ -19,6 +20,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+        builder.Logging.AddDebug();
 
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
         builder.Services.AddSingleton<IFeedbackService, FeedbackService>();

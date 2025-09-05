@@ -10,14 +10,19 @@ namespace NasreddinsSecretListener.Companion.ViewModels;
 
 public sealed partial class ScanViewModel : ObservableObject, IDisposable
 {
-    public ScanViewModel(IBleClient ble, ISettingsService settings)
+    public ScanViewModel(IBleClient ble, ISettingsService settings, ILogService log)
     {
+        _log = log;
         _ble = ble;
         _settings = settings; // <— wichtig: speichern!
 
         _ble.DeviceDiscovered += Ble_DeviceDiscovered;
         _ble.StateChanged += s => Microsoft.Maui.ApplicationModel.MainThread
-                                        .BeginInvokeOnMainThread(() => StatusText = s);
+                                        .BeginInvokeOnMainThread(() =>
+                                        {
+                                            StatusText = s;
+                                            _log.Info("[NSL] StatusText=>" + s);
+                                        });
 
         // gespeichertes Gerät laden (fire & forget ist hier okay)
         _ = LoadMyDeviceAsync();
@@ -35,6 +40,7 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     private const string MyDeviceKey = "nsl.myDeviceId";
 
     private readonly IBleClient _ble;
+    private readonly ILogService _log;
     private readonly ISettingsService _settings;
     private bool _autoConnectTried; // pro „Sicht“ nur einmal versuchen
     private string? _myDeviceId;
@@ -86,7 +92,8 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
         }
 
         await SaveMyDeviceAsync(SelectedDevice.Id);
-        foreach (var d in Devices) d.IsMine = (d.Id == SelectedDevice.Id);
+        foreach (var d in Devices)
+            d.IsMine = (d.Id == SelectedDevice.Id);
         ResortDevices();
         StatusText = $"„{SelectedDevice.Name}“ als *Mein Gerät* gespeichert.";
         HasMyDevice = true;
@@ -161,7 +168,8 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
         if (!ordered.SequenceEqual(Devices))
         {
             Devices.Clear();
-            foreach (var d in ordered) Devices.Add(d);
+            foreach (var d in ordered)
+                Devices.Add(d);
         }
     }
 
@@ -169,7 +177,10 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     {
         _myDeviceId = id;
         HasMyDevice = true;
-        try { await SecureStorage.SetAsync(MyDeviceKey, id); }
+        try
+        {
+            await SecureStorage.SetAsync(MyDeviceKey, id);
+        }
         catch { /* ignorieren, UI-Status bleibt gesetzt */ }
     }
 

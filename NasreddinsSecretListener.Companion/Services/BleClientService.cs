@@ -56,14 +56,19 @@ public class BleClientService : IBleClient
         catch { return false; }
         finally
         {
-            try { if (_adapter.ConnectedDevices.Contains(dev)) await _adapter.DisconnectDeviceAsync(dev); } catch { }
+            try
+            {
+                if (_adapter.ConnectedDevices.Contains(dev))
+                    await _adapter.DisconnectDeviceAsync(dev);
+            }
+            catch { }
         }
     }
 
     public async Task StartScanAsync()
     {
 #if ANDROID
-        _log.Info("StartScanAsync()");
+        _log.Info("[NSL] StartScanAsync()");
         StateChanged?.Invoke("Scan startet…");
 
         // Laufzeit-Berechtigungen anfragen (dein bestehender Helper)
@@ -221,10 +226,18 @@ public class BleClientService : IBleClient
             _connected = dev;
 
             var service = await dev.GetServiceAsync(ServiceUuid);
-            if (service is null) { StateChanged?.Invoke("NSL-Service nicht gefunden."); return false; }
+            if (service is null)
+            {
+                StateChanged?.Invoke("NSL-Service nicht gefunden.");
+                return false;
+            }
 
             _notifyChar = await service.GetCharacteristicAsync(NotifyUuid);
-            if (_notifyChar is null) { StateChanged?.Invoke("Notify-Char nicht gefunden."); return false; }
+            if (_notifyChar is null)
+            {
+                StateChanged?.Invoke("Notify-Char nicht gefunden.");
+                return false;
+            }
 
             _notifyChar.ValueUpdated += OnStatusUpdated;
             await _notifyChar.StartUpdatesAsync();
@@ -280,7 +293,11 @@ public class BleClientService : IBleClient
             dev = _adapter.ConnectedDevices.FirstOrDefault(d => d.Id.ToString() == deviceId);
         }
 
-        if (dev is null) { StateChanged?.Invoke("Gerät nicht gefunden."); return false; }
+        if (dev is null)
+        {
+            StateChanged?.Invoke("Gerät nicht gefunden.");
+            return false;
+        }
 
         try
         {
@@ -290,10 +307,18 @@ public class BleClientService : IBleClient
             StateChanged?.Invoke($"Verbunden: {dev.Name}");
 
             var service = await dev.GetServiceAsync(ServiceUuid);
-            if (service is null) { StateChanged?.Invoke("Service nicht gefunden."); return false; }
+            if (service is null)
+            {
+                StateChanged?.Invoke("Service nicht gefunden.");
+                return false;
+            }
 
             _notifyChar = await service.GetCharacteristicAsync(NotifyUuid);
-            if (_notifyChar is null) { StateChanged?.Invoke("Notify-Char nicht gefunden."); return false; }
+            if (_notifyChar is null)
+            {
+                StateChanged?.Invoke("Notify-Char nicht gefunden.");
+                return false;
+            }
 
             _notifyChar.ValueUpdated += OnStatusUpdated;
             await _notifyChar.StartUpdatesAsync();
@@ -310,7 +335,8 @@ public class BleClientService : IBleClient
     private void OnStatusUpdated(object? sender, CharacteristicUpdatedEventArgs e)
     {
         var data = e.Characteristic.Value;
-        if (data is null || data.Length == 0) return;
+        if (data is null || data.Length == 0)
+            return;
 
         var val = data[0]; // 0x00=None, 0x01=Early, 0x02=Confirmed
         var text = val switch
@@ -321,8 +347,7 @@ public class BleClientService : IBleClient
             _ => $"Unbekannter Status 0x{val:X2}"
         };
 
-        // Haptik gemäß Vorgabe: 0x01 = 1x kurz, 0x02 = 2x kurz
-        // Nicht blockierend ausführen (eigener Task)
+        // Haptik gemäß Vorgabe: 0x01 = 1x kurz, 0x02 = 2x kurz Nicht blockierend ausführen (eigener Task)
         _ = _feedback.NotifyStatusAsync(val);
 
         // UI-Status aktualisieren
