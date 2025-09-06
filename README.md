@@ -56,8 +56,9 @@ So entstand auch der Name dieses Projekts. Und glaubt mir, er hat viel von Nasre
 
 ### Dokumentationen
 
-* Wemos Lolin C3 PICO ESP32-C3  https://www.wemos.cc/en/latest/c3/c3_pico.html
-
+* **Wemos Lolin C3 PICO ESP32-C3** https://www.wemos.cc/en/latest/c3/c3_pico.html
+* **QMC5883L-Magnetometer** https://github.com/hesspet/Nasreddins-Secret-Listener/blob/main/Datasheets/HMC5883L_3-Axis_Digital_Compass_IC.pdf
+* 
 ### Einkaufsquellen:
 
 * **Wemos Lolin C3 PICO ESP32-C3** - z.B.: https://arduino-projekte.info/products/wemos-lolin-c3-pico-esp32-c3
