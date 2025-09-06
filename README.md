@@ -3,23 +3,24 @@
 ## Magie trifft Technik
 
 Die Grundidee dieses kleinen Projekts war, eine bezahlbare technische Lösung zu finden, um den sogenannten „Which Hand“-Trick elektronisch umzusetzen.  
+
 Als Amateurzauberer ist es wirtschaftlich nicht darstellbar, ein Gerät für über 200 € zu kaufen, um ein Kunststück bzw. Routine von vielleicht ein oder zwei Minuten Dauer zu haben. 
 
-Der DIY-Gedanke war naheliegend da ich mich schon seit Jahren mit der Thematik Mikrocontroller im Bereich von IoT außeinandersetze.
+Der DIY-Gedanke war naheliegend, da ich mich schon seit Jahren mit der Thematik Mikrocontroller im Bereich von IoT außeinandersetze.
 
 Es gibt ganz verschiedene Ansätze, wie man das Kunststück ausführen kann – rein mental, mechanisch oder elektronisch. Viele der kommerziellen elektronischen Lösungen sind teuer, meist im Preisbereich über 200€.
 
-Mein Ziel war es daher, eine robuste, nachvollziehbare und preisgünstige Variante mit Standardbauteilen zu entwickeln. Hierbei ist der Aspekt "Standardbauteile" besonders wichtig. Der Aufwand soll sich auf Zusammenstecken und ggf. einzelne Lötarbeiten mit Kabeln beschränken.
+Mein Ziel war es daher, eine robuste, nachvollziehbare und preisgünstige Variante mit gut erhältlichen Standardbauteilen zu entwickeln. Hierbei war der Aspekt "Standardbauteile" besonders wichtig. Der Aufwand sollte sich auf das Zusammenstecken und ggf. einzelnen Lötarbeiten mit Kabeln beschränken.
 
 **Zielsetzung**
 
-- Preisgünstig – möglichst unter 50 €
-- Bauteile leicht zu beschaffen
+- Preisgünstig – möglichst unter 50 € (aktuell ca. 40€ - Siehe Einkaufsquellen am Ende des Textes)
+- Bauteile leicht zu beschaffen in DE
 - Bis auf wenige Lötarbeiten mit gängiger Hardware umsetzbar
 
 ## Technische Basis
 
-Das Herzstück ist ein **QMC5883L-Magnetometer** auf einem kleinen Breakout-Board (GY-273). Dieser Sensor erkennt Magnete zuverlässig – ideal für den geplanten Einsatz.  Es gibt von Adafruit eine gut dokumentierte Bibliothek, die den gesamten I²C-Overhead verwaltet und so die Ansteuerung erleichtert.
+Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout-Board (GY-273). Dieser Sensor erkennt Magnete zuverlässig – ideal für den geplanten Einsatz.  Es gibt von Adafruit eine gut dokumentierte Bibliothek, die den gesamten I²C-Overhead verwaltet und so die Ansteuerung erleichtert.
 
 > Hinweis: Entgegen mancher Aussagen in Foren funktioniert die Erkennung eines Magneten in der Nähe mit diesem Chip zuverlässig, wenn man den notwendigen Rechenaufwand gelöst hat. Ein wenig Mathe ist dazu schon notwendig.
 
