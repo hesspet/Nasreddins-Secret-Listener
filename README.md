@@ -38,10 +38,13 @@ Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout
   - „Nasreddin zaubert“ (==Video TBD==)
   - Weitere Anwendungen
 - Umstellung des ESP32 Boards auf das Board **Wemos Lolin C3 PICO ESP32-C3**. Dieses Board erfüllt alle Anforderungen die man für das Projekt benötigt. (ERLEDIGT)
+- Prototyp erststellen (ERLEDIGT)
 
 ## Prototyp - 2025-09-06
 
-Hier ist nun der erste Prototyp. Mit Akku, Magnetometer und voll funktionsfähig.  Geplant ist das dann mal irgendwann in Schrumpfschlauch einzupacken. Aktuell zum testen nun einfach mal mit zwei Gummies zusammengehalten. Zum Größenvergleich einfach mal ein 4x1 Legostein. Für mich jetzt erst einmal fast perfekt.
+Hier ist nun der erste Prototyp. Mit Akku, Magnetometer und voll funktionsfähig.  Geplant ist das dann mal irgendwann in Schrumpfschlauch einzupacken. Aktuell zum testen nun einfach mal mit zwei Gummies zusammengehalten. Zum Größenvergleich einfach mal ein 4x1 Legostein. Für mich jetzt erst einmal fast perfekt. (Bauteilkosten ca. 35-40€)
+
+Der Lötaufwand ist extrem gering. Es sind im Prinzip nur die Stecker, die ich fertig konfektioniert kaufen, anzulöten und auf der Platine des WEMO sind zwei Lötbrücken zu schliessen (Lade-LED). Bauzeit ca. 15 Minuten.
 
 <img src="Images/2025-09-06_Erster_Prototyp.png" alt="Der erste Prototyp" width="400">
 
