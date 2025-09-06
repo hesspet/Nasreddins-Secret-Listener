@@ -43,7 +43,7 @@ Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout
 
 Hier ist nun der erste Prototyp. Mit Akku, Magnetometer und voll funktionsfähig.  Geplant ist das dann mal irgendwann in Schrumpfschlauch einzupacken. Aktuell zum testen nun einfach mal mit zwei Gummies zusammengehalten. Zum Größenvergleich einfach mal ein 4x1 Legostein. Für mich jetzt erst einmal fast perfekt.
 
-<img src="Images/2025-09-06_Erster_Prototyp.png.png" alt="Der erste Prototyp" width="400">
+<img src="Images/2025-09-06_Erster_Prototyp.png" alt="Der erste Prototyp" width="400">
 
 ## Wer oder was ist Nassreddin?
 
