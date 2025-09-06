@@ -36,7 +36,7 @@ Das Herzstück ist ein **QMC5883L-Magnetometer** auf einem kleinen Breakout-Boar
   - „Which Hand“ – der Klassiker (Video TBD)
   - „Nasreddin zaubert“ (Video TBD)
   - Weitere Anwendungen
-- Umstellung des ESP32 Boards auf das 
+- Umstellung des ESP32 Boards auf das Board **Wemos Lolin C3 PICO ESP32-C3**. Dieses Board erfüllt alle Anforderungen die man für das Projekt benötigt.
 
 ## Wer oder was ist Nassreddin?
 
@@ -51,4 +51,16 @@ Mehr dazu findet man zum Beispiel hier:
 Als der Trick **Mr. Gloves** von Juan Pablo herauskam, habe ich ihn sofort gekauft.  (Review: https://www.youtube.com/watch?v=njTG4mPjbsg)
 Die Figur trägt dabei eine markante Mütze – diese hat dazu geführt, dass wir ihr spontan den Namen **Nasr ad-Din al-Quffaz (نصر الدين القفاز)** gaben, was übersetzt etwa „Nasreddin der Handschuh“ bedeutet.  
 So entstand auch der Name dieses Projekts. Und glaubt mir, er hat viel von Nasreddin Hodscha wenn er loslegt. Seine Späße lehnen sich gerne mal an die Geschichten seines Namensgebers an.
+
+## Quellen und Dokumentationen
+
+### Dokumentationen
+
+* Wemos Lolin C3 PICO ESP32-C3  https://www.wemos.cc/en/latest/c3/c3_pico.html
+
+### Einkaufsquellen:
+
+* **Wemos Lolin C3 PICO ESP32-C3** - z.B.: https://arduino-projekte.info/products/wemos-lolin-c3-pico-esp32-c3
+* 2pcs **GY-273 QMC5883L Triple Axis Compass Magnetometer Sensor HMC5883L** - https://www.amazon.de/dp/B07HMK1QNH?ref=ppx_yo2ov_dt_b_fed_asin_title
+* **Akku 502525 LiPo 3.7V 220mAh 0.814Wh 27x25x5mm** - https://www.amazon.de/dp/B088DKWJXX?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1 (Leider mit fast 12€ relativ teuer, ich bin noch auf der Suche nach einer günstigeren Quelle)
 
