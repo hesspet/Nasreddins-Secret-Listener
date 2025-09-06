@@ -39,6 +39,12 @@ Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout
   - Weitere Anwendungen
 - Umstellung des ESP32 Boards auf das Board **Wemos Lolin C3 PICO ESP32-C3**. Dieses Board erfüllt alle Anforderungen die man für das Projekt benötigt. (ERLEDIGT)
 
+## Prototyp - 2025-09-06
+
+Hier ist nun der erste Prototyp. Mit Akku, Magnetometer und voll funktionsfähig.  Geplant ist das dann mal irgendwann in Schrumpfschlauch einzupacken. Aktuell zum testen nun einfach mal mit zwei Gummies zusammengehalten. Zum Größenvergleich einfach mal ein 4x1 Legostein. Für mich jetzt erst einmal fast perfekt.
+
+<img src="Images/2025-09-06_Erster_Prototyp.png.png" alt="Der erste Prototyp" width="400">
+
 ## Wer oder was ist Nassreddin?
 
 Nasreddin Hodscha (auch bekannt als Nasreddin, Nasreddin Hoca oder Nasreddin Hodja) ist eine legendäre Figur aus dem türkischen, persischen und arabischen Kulturraum.  Er gilt als Volksweisheitslehrer, Geschichtenerzähler und Schelm, der mit Humor und oft überraschenden Pointen Alltagsweisheiten vermittelt.  
