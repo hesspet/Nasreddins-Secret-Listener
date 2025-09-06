@@ -41,10 +41,9 @@ Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout
 
 ## Wer oder was ist Nassreddin?
 
-Nasreddin Hodscha (auch bekannt als Nasreddin, Nasreddin Hoca oder Nasreddin Hodja) ist eine legendäre Figur aus dem türkischen, persischen und arabischen Kulturraum.  
-Er gilt als Volksweisheitslehrer, Geschichtenerzähler und Schelm, der mit Humor und oft überraschenden Pointen Alltagsweisheiten vermittelt.  
-Die Anekdoten um Nasreddin reichen bis ins 13. Jahrhundert zurück und sind in vielen Ländern verbreitet.  
-Mehr dazu findet man zum Beispiel hier: <https://de.wikipedia.org/wiki/Nasreddin>  
+Nasreddin Hodscha (auch bekannt als Nasreddin, Nasreddin Hoca oder Nasreddin Hodja) ist eine legendäre Figur aus dem türkischen, persischen und arabischen Kulturraum.  Er gilt als Volksweisheitslehrer, Geschichtenerzähler und Schelm, der mit Humor und oft überraschenden Pointen Alltagsweisheiten vermittelt.  
+
+Die Anekdoten um Nasreddin reichen bis ins 13. Jahrhundert zurück und sind in vielen Ländern verbreitet. Mehr zu dieser Figur findet man zum Beispiel hier: <https://de.wikipedia.org/wiki/Nasreddin>  
 
 ## Nasr ad-Din al-Quffaz (Nasreddin der Handschuh)
 
@@ -52,13 +51,21 @@ Als der Trick **Mr. Gloves** von Juan Pablo herauskam, habe ich ihn sofort gekau
 Die Figur trägt dabei eine markante Mütze – diese hat dazu geführt, dass wir ihr spontan den Namen **Nasr ad-Din al-Quffaz (نصر الدين القفاز)** gaben, was übersetzt etwa „Nasreddin der Handschuh“ bedeutet.  
 So entstand auch der Name dieses Projekts. Und glaubt mir, er hat viel von Nasreddin Hodscha wenn er loslegt. Seine Späße lehnen sich gerne mal an die Geschichten seines Namensgebers an.
 
+## Nachbau?
+
+Im Prinzip sollten in diesem Repository alle notwendigen Infos zu finden sein. Soweit es mir Möglich ist, kann ich auch Zauberer gerne beim Bau unterstützen.
+
+## Kann ich das Teil bei Dir kaufen?
+
+Ich wollte eigentlich nicht in den Handel damit einsteigen. Es ist ein reines Hobbyprojekt, daher auch die Veröfftlichung zur freien Verfügung - aber mal bei mir Anfragen ist durchaus möglich. In Einzelfällen kann man gerne mal, im Austausch mit Büchern oder so, reden :-)
+
 ## Quellen und Dokumentationen
 
 ### Dokumentationen
 
 * **Wemos Lolin C3 PICO ESP32-C3** https://www.wemos.cc/en/latest/c3/c3_pico.html
 * **QMC5883L-Magnetometer** https://github.com/hesspet/Nasreddins-Secret-Listener/blob/main/Datasheets/HMC5883L_3-Axis_Digital_Compass_IC.pdf
-* 
+   
 ### Einkaufsquellen:
 
 * **Wemos Lolin C3 PICO ESP32-C3** - z.B.: https://arduino-projekte.info/products/wemos-lolin-c3-pico-esp32-c3
