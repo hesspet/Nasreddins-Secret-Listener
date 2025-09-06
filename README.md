@@ -48,8 +48,14 @@ Die Anekdoten um Nasreddin reichen bis ins 13. Jahrhundert zurück und sind in v
 ## Nasr ad-Din al-Quffaz (Nasreddin der Handschuh)
 
 Als der Trick **Mr. Gloves** von Juan Pablo herauskam, habe ich ihn sofort gekauft.  (Review: https://www.youtube.com/watch?v=njTG4mPjbsg) (Einkaufsquelle: https://secret-magic-store.de/collections/zoom-meeting-06-02-2024/products/mr-gloves-juan-pablo)
-Die Figur trägt dabei eine markante Mütze – diese hat dazu geführt, dass wir ihr spontan den Namen **Nasr ad-Din al-Quffaz (نصر الدين القفاز)** gaben, was übersetzt etwa „Nasreddin der Handschuh“ bedeutet.  
-So entstand auch der Name dieses Projekts. Und glaubt mir, er hat viel von Nasreddin Hodscha wenn er loslegt. Seine Späße lehnen sich gerne mal an die Geschichten seines Namensgebers an.
+
+Die Figur trägt dabei eine markante Mütze – diese hat dazu geführt, dass wir ihr spontan den Namen **Nasr ad-Din al-Quffaz (نصر الدين القفاز)** gaben, was übersetzt etwa „Nasreddin der Handschuh“ bedeutet. So entstand auch der Name dieses Projekts. 
+
+Glaubt mir, er hat viel von Nasreddin Hodscha, wenn er loslegt. Seine Späße lehnen sich gerne mal an die Geschichten seines Namensgebers an.
+
+<img src="Images/NassredinUndPeter.jpg" alt="Nasreddin der Handschuh mit Peter" width="400">
+
+Auf dem Bild seht ihr eine Variante von Nassreddin. Der Orginale Handschuh von Juan Pablo ist, besonders imm Sommer, relativ warm. Ich habe mir eine eigene Version von Juans Mr. Glove gebaut. Ihr seht auch, dass ich eine andere Art von Augen verwende. Das sind Fingeraugen die man in Spielzeuggeschäften bekommt. Eine Alternative zu den Augen des Orginal Tricks.
 
 ## Nachbau?
 
