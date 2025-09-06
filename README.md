@@ -31,20 +31,19 @@ Das Herzstück ist ein **QMC5883L-Magnetometer** auf einem kleinen Breakout-Boar
 - Entwicklung einer Smartphone-App als ~~Progressive Web App (PWA)~~ oder alternativ als MAUI-App
   - PWA wurde verworfen, da die Ansteuerung von Bluetooth nicht zu meiner Zufriedenheit gelöst werden konnte. (VERWORFEN)
   - Der Ansatz via MAUI hat sich als deutlich einfacher erwiesen  (ERLEDIGT)
-- Möglichkeit zur Magnet-Kalibrierung direkt vom Smartphone aus (TBD)
+- Möglichkeit zur Magnet-Kalibrierung direkt vom Smartphone aus (==TBD==)
 - Sammlung von Kunststückideen, z. B.:
-  - „Which Hand“ – der Klassiker (Video TBD)
-  - „Nasreddin zaubert“ (Video TBD)
+  - „Which Hand“ – der Klassiker (==Video TBD==)
+  - „Nasreddin zaubert“ (==Video TBD==)
   - Weitere Anwendungen
-- Umstellung des ESP32 Boards auf das Board **Wemos Lolin C3 PICO ESP32-C3**. Dieses Board erfüllt alle Anforderungen die man für das Projekt benötigt.
+- Umstellung des ESP32 Boards auf das Board **Wemos Lolin C3 PICO ESP32-C3**. Dieses Board erfüllt alle Anforderungen die man für das Projekt benötigt. (ERLEDIGT)
 
 ## Wer oder was ist Nassreddin?
 
 Nasreddin Hodscha (auch bekannt als Nasreddin, Nasreddin Hoca oder Nasreddin Hodja) ist eine legendäre Figur aus dem türkischen, persischen und arabischen Kulturraum.  
 Er gilt als Volksweisheitslehrer, Geschichtenerzähler und Schelm, der mit Humor und oft überraschenden Pointen Alltagsweisheiten vermittelt.  
 Die Anekdoten um Nasreddin reichen bis ins 13. Jahrhundert zurück und sind in vielen Ländern verbreitet.  
-Mehr dazu findet man zum Beispiel hier:  
-- <https://de.wikipedia.org/wiki/Nasreddin>  
+Mehr dazu findet man zum Beispiel hier: <https://de.wikipedia.org/wiki/Nasreddin>  
 
 ## Nasr ad-Din al-Quffaz (Nasreddin der Handschuh)
 
