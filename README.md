@@ -47,7 +47,7 @@ Die Anekdoten um Nasreddin reichen bis ins 13. Jahrhundert zurück und sind in v
 
 ## Nasr ad-Din al-Quffaz (Nasreddin der Handschuh)
 
-Als der Trick **Mr. Gloves** von Juan Pablo herauskam, habe ich ihn sofort gekauft.  (Review: https://www.youtube.com/watch?v=njTG4mPjbsg) (Einkaufsquelle: https://secret-magic-store.de/collections/zoom-meeting-06-02-2024/products/mr-gloves-juan-pablo?_pos=1&_sid=7cc453fcf&_ss=r)
+Als der Trick **Mr. Gloves** von Juan Pablo herauskam, habe ich ihn sofort gekauft.  (Review: https://www.youtube.com/watch?v=njTG4mPjbsg) (Einkaufsquelle: https://secret-magic-store.de/collections/zoom-meeting-06-02-2024/products/mr-gloves-juan-pablo)
 Die Figur trägt dabei eine markante Mütze – diese hat dazu geführt, dass wir ihr spontan den Namen **Nasr ad-Din al-Quffaz (نصر الدين القفاز)** gaben, was übersetzt etwa „Nasreddin der Handschuh“ bedeutet.  
 So entstand auch der Name dieses Projekts. Und glaubt mir, er hat viel von Nasreddin Hodscha wenn er loslegt. Seine Späße lehnen sich gerne mal an die Geschichten seines Namensgebers an.
 
@@ -73,4 +73,8 @@ Ich wollte eigentlich nicht in den Handel damit einsteigen. Es ist ein reines Ho
 * **Wemos Lolin C3 PICO ESP32-C3** - z.B.: https://arduino-projekte.info/products/wemos-lolin-c3-pico-esp32-c3
 * 2pcs **GY-273 QMC5883L Triple Axis Compass Magnetometer Sensor HMC5883L** - https://www.amazon.de/dp/B07HMK1QNH?ref=ppx_yo2ov_dt_b_fed_asin_title
 * **Akku 502525 LiPo 3.7V 220mAh 0.814Wh 27x25x5mm** - https://www.amazon.de/dp/B088DKWJXX?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1 (Leider mit fast 12€ relativ teuer, ich bin noch auf der Suche nach einer günstigeren Quelle)
+
+#### Kunsttücke / Routinen
+
+* Mr. Gloves - z.B.: https://secret-magic-store.de/collections/zoom-meeting-06-02-2024/products/mr-gloves-juan-pablo (Bitte kauft den Trick nicht irgendwo in China, Joan Pablo hat mit dieser Figur eine sehr schönen Trick erfunden.)
 
