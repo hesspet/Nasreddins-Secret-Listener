@@ -17,6 +17,7 @@ Mein Ziel war es daher, eine robuste, nachvollziehbare und preisgünstige Varian
 - Preisgünstig – möglichst unter 50 € (aktuell ca. 40€ - Siehe Einkaufsquellen am Ende des Textes)
 - Bauteile leicht zu beschaffen in DE
 - Bis auf wenige Lötarbeiten mit gängiger Hardware umsetzbar
+- Notifikation auch auf Smartwatches
 
 ## Technische Basis
 
@@ -39,6 +40,8 @@ Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout
   - Weitere Anwendungen
 - Umstellung des ESP32 Boards auf das Board **Wemos Lolin C3 PICO ESP32-C3**. Dieses Board erfüllt alle Anforderungen die man für das Projekt benötigt. (ERLEDIGT)
 - Prototyp erststellen (ERLEDIGT)
+- Notifikation an Smartwach weitergeben (ERLEDIGT)
+- Smartwatch als Bluetooth Client erstellen. Direktverbindung von Smartwatch zu Device ohne "Mann in the Middle(Smartphone)"
 
 ## Prototyp - 2025-09-06
 
@@ -65,6 +68,10 @@ Glaubt mir, er hat viel von Nasreddin Hodscha, wenn er loslegt. Seine Späße le
 <img src="Images/NassredinUndPeter.jpg" alt="Nasreddin der Handschuh mit Peter" width="400">
 
 Auf dem Bild seht ihr eine Variante von Nassreddin. Der orginale Handschuh von Juan Pablo ist, besonders im Sommer, relativ warm. Ich habe mir eine eigene Version von Juans Mr. Glove gebaut inkl. einiger Varianten des Gimmicks. Ihr seht auch, dass ich eine andere Art von Augen verwende. Es sind Fingeraugen die man in Spielzeuggeschäften bekommt. Eine Alternative zu den Augen des Orginaltricks. Die Fingeraugen sind billig und ab und zu verschenkt Nasreddin ein paar an Kinder.... (Im 100er Pack bekommt man die auch günstig in China. Da ich nicht alle Farben gebrauchen kann, gibt es immer gute Abnehmer für den Überschuß)
+
+## Anleitung, Routinen für Kunststsücke, weitere Texte 
+
+[WIKI](https://github.com/hesspet/Nasreddins-Secret-Listener/wiki)
 
 ## Nachbau?
 
