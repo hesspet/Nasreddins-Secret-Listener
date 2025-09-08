@@ -17,6 +17,7 @@ Mein Ziel war es daher, eine robuste, nachvollziehbare und preisgünstige Varian
 - Preisgünstig – möglichst unter 50 € (aktuell ca. 40€ - Siehe Einkaufsquellen am Ende des Textes)
 - Bauteile leicht zu beschaffen in DE
 - Bis auf wenige Lötarbeiten mit gängiger Hardware umsetzbar
+- Notifikation auch auf Smartwatches
 
 ## Technische Basis
 
@@ -39,6 +40,8 @@ Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout
   - Weitere Anwendungen
 - Umstellung des ESP32 Boards auf das Board **Wemos Lolin C3 PICO ESP32-C3**. Dieses Board erfüllt alle Anforderungen die man für das Projekt benötigt. (ERLEDIGT)
 - Prototyp erststellen (ERLEDIGT)
+- Notifikation an Smartwach weitergeben (ERLEDIGT)
+- Smartwatch als Bluetooth Client erstellen. Direktverbindung von Smartwatch zu Device ohne "Mann in the Middle(Smartphone)"
 
 ## Prototyp - 2025-09-06
 
