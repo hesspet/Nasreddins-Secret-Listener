@@ -1,27 +1,53 @@
 ﻿// Services/FeedbackService.cs
 namespace NasreddinsSecretListener.Companion.Services;
 
+#if ANDROID
+
+using Android.App;
+using NasreddinsSecretListener.Companion.Platforms.Android;
+
+#endif
+
 public interface IFeedbackService
 {
-    /// <summary>Zwei Haptik-Pulse hintereinander (Doppelpuls).</summary>
+    /// <summary>
+    ///     Zwei Haptik-Pulse hintereinander (Doppelpuls).
+    /// </summary>
     Task HapticDoublePulseAsync();
 
-    /// <summary>Ein einfacher Haptik-Puls (ms aus SettingsService).</summary>
+    /// <summary>
+    ///     Ein einfacher Haptik-Puls (ms aus SettingsService).
+    /// </summary>
     void HapticPulse();
 
     /// <summary>
-    /// Statusabhängige Rückmeldung:
-    /// 0x01 = Early (Annäherung) → 1× Puls, wenn aktiv
-    /// 0x02 = Confirmed (Magnet) → 1×/2× Puls je nach Setting
+    ///     Statusabhängige Rückmeldung: 0x01 = Early (Annäherung) → 1× Puls, wenn aktiv 0x02 =
+    ///     Confirmed (Magnet) → 1×/2× Puls je nach Setting
     /// </summary>
     Task NotifyStatusAsync(byte status);
 
-    /// <summary>Einfacher Ton (Stub für spätere Implementierung).</summary>
+    /// <summary>
+    ///     Einfacher Ton (Stub für spätere Implementierung).
+    /// </summary>
     void PlayBeep();
 }
 
 public sealed class FeedbackService : IFeedbackService
 {
+#if ANDROID
+
+    private static void NotifyWatch(string title, string text, bool doublePulse)
+    {
+        try
+        {
+            var ctx = Application.Context;
+            AndroidEventNotifier.ShowEvent(ctx, title, text, doublePulse);
+        }
+        catch { /* ignore */ }
+    }
+
+#endif
+
     public FeedbackService(ISettingsService settings)
     {
         _settings = settings;
@@ -67,6 +93,9 @@ public sealed class FeedbackService : IFeedbackService
         if (status == 0x01 && _settings.VibrateOnEarly)
         {
             HapticPulse();
+#if ANDROID
+            NotifyWatch("NSL (früh)", "Annäherung erkannt", doublePulse: false);
+#endif
             // kleine Abklingzeit ähnlich wie vorher
             await Task.Delay(150);
             return;
@@ -79,16 +108,18 @@ public sealed class FeedbackService : IFeedbackService
                 await HapticDoublePulseAsync();
             else
                 HapticPulse();
-
+#if ANDROID
+            NotifyWatch("NSL bestätigt", "Magnet erkannt", doublePulse: _settings.DoublePulseForConfirmed);
+#endif
             await Task.Delay(150);
         }
     }
 
     public void PlayBeep()
     {
-        // Platzhalter: hier später MediaElement/AudioTrack/Platform-Sound einhängen
-        // oder systemweite Benachrichtigung über NotificationChannel abspielen.
-        // Vorläufig tun wir nichts, damit keine OEM-Konflikte entstehen.
+        // Platzhalter: hier später MediaElement/AudioTrack/Platform-Sound einhängen oder
+        // systemweite Benachrichtigung über NotificationChannel abspielen. Vorläufig tun wir
+        // nichts, damit keine OEM-Konflikte entstehen.
     }
 
     // Spam-Schutz wie bisher in BleClientService

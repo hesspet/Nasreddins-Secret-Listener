@@ -59,3 +59,4 @@ nunit-*.xml
 # Solution Spezifisch
 *.[Zz]ip
 /NassreddinsSecretListener/NassreddinsSecretListener.vcxproj
+/NasreddinsSecretListener.Companion/NasreddinsSecretListener.Companion.csproj.user
