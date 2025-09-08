@@ -71,7 +71,7 @@ Auf dem Bild seht ihr eine Variante von Nassreddin. Der orginale Handschuh von J
 
 ## Anleitung, Routinen für Kunststsücke, weitere Texte 
 
-[WIKI]([wiki](https://github.com/hesspet/Nasreddins-Secret-Listener/wiki))
+[WIKI](https://github.com/hesspet/Nasreddins-Secret-Listener/wiki)
 
 ## Nachbau?
 
