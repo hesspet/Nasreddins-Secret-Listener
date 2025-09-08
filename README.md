@@ -69,6 +69,10 @@ Glaubt mir, er hat viel von Nasreddin Hodscha, wenn er loslegt. Seine Späße le
 
 Auf dem Bild seht ihr eine Variante von Nassreddin. Der orginale Handschuh von Juan Pablo ist, besonders im Sommer, relativ warm. Ich habe mir eine eigene Version von Juans Mr. Glove gebaut inkl. einiger Varianten des Gimmicks. Ihr seht auch, dass ich eine andere Art von Augen verwende. Es sind Fingeraugen die man in Spielzeuggeschäften bekommt. Eine Alternative zu den Augen des Orginaltricks. Die Fingeraugen sind billig und ab und zu verschenkt Nasreddin ein paar an Kinder.... (Im 100er Pack bekommt man die auch günstig in China. Da ich nicht alle Farben gebrauchen kann, gibt es immer gute Abnehmer für den Überschuß)
 
+## Anleitung, Routinen für Kunststsücke, weitere Texte 
+
+[WIKI](wiki)
+
 ## Nachbau?
 
 Im Prinzip sollten in diesem Repository alle notwendigen Infos zu finden sein. Soweit es mir Möglich ist, kann ich auch Zauberer gerne beim Bau unterstützen.
