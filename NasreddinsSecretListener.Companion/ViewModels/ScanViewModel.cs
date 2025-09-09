@@ -18,14 +18,43 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
 
         _ble.DeviceDiscovered += Ble_DeviceDiscovered;
         _ble.StateChanged += s => Microsoft.Maui.ApplicationModel.MainThread
-                                        .BeginInvokeOnMainThread(() =>
-                                        {
-                                            StatusText = s;
-                                            _log.Info("[NSL] StatusText=>" + s);
-                                        });
+             .BeginInvokeOnMainThread(async () =>
+             {
+                 // Status immer anzeigen
+                 StatusText = s ?? string.Empty;
+
+                 // Grobe Heuristik: "Verbunden" => als connected werten
+                 var isConnectedNow = s?.StartsWith("Verbunden", StringComparison.OrdinalIgnoreCase) == true;
+
+                 if (isConnectedNow)
+                 {
+                     IsConnected = true;
+
+                     // Automatische Navigation nur, wenn Auto-Connect gewünscht, wir noch nicht
+                     // navigiert haben, und eine Shell verfügbar ist.
+                     if (_settings.AutoConnectMyDevice && !_navigatedOnAutoConnect && Shell.Current is not null)
+                     {
+                         _navigatedOnAutoConnect = true;
+                         try
+                         {
+                             await Shell.Current.GoToAsync("//status");
+                         }
+                         catch { /* Navigation ist best-effort */ }
+                     }
+                 }
+                 else if (s?.Contains("Getrennt", StringComparison.OrdinalIgnoreCase) == true
+                       || s?.Contains("nicht verbunden", StringComparison.OrdinalIgnoreCase) == true)
+                 {
+                     // Bei Disconnect den Guard zurücksetzen
+                     IsConnected = false;
+                     _navigatedOnAutoConnect = false;
+                 }
+             });
 
         // gespeichertes Gerät laden (fire & forget ist hier okay)
         _ = LoadMyDeviceAsync();
+
+        _navigatedOnAutoConnect = false;
     }
 
     public ObservableCollection<NslDevice> Devices { get; } = new();
@@ -42,8 +71,12 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     private readonly IBleClient _ble;
     private readonly ILogService _log;
     private readonly ISettingsService _settings;
-    private bool _autoConnectTried; // pro „Sicht“ nur einmal versuchen
+    private bool _autoConnectTried;
+
+    // pro „Sicht“ nur einmal versuchen
     private string? _myDeviceId;
+
+    private bool _navigatedOnAutoConnect;
 
     // ===== Properties =====
     [ObservableProperty] private bool hasMyDevice;

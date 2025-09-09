@@ -39,6 +39,11 @@
                     Maximum="400"
                     Value="{Binding HapticMs}" />
             <Label Text="{Binding HapticMs, StringFormat='Vibrationsdauer: {0} ms'}" />
+
+            <Button Text="Beenden"
+        Command="{Binding ExitAppCommand}"
+        BackgroundColor="{DynamicResource SystemRed}"
+        TextColor="White" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
