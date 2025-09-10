@@ -7,10 +7,13 @@
         <ResourceDictionary>
             <!-- Converter -->
             <local:NullToBoolConverter x:Key="NullToBoolConverter" />
-            <local:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <local:BoolToColorConverterBluetooth x:Key="BoolToColorConverterBluetooth" />
             <local:NslBadgeTextConverter x:Key="NslBadgeTextConverter" />
             <local:StatusToTextConverter x:Key="StatusToTextConverter" />
-
+            <local:StatusToBackgroundColorConverter x:Key="StatusToBgColor" />
+            <local:StatusTextToColorConverter x:Key="StatusTextToColorConverter" />
+            <local:StatusToForegroundColorConverter x:Key="StatusToFgColor" />
+            <local:StatusTextColorRemoveConverter x:Key="StatusTextColorRemoveConverter" />
             <Style TargetType="Label">
                 <Setter Property="FontSize" Value="16" />
             </Style>

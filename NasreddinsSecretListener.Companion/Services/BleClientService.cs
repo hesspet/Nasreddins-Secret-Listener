@@ -11,6 +11,7 @@ using Microsoft.Maui.Devices;   // Vibration
 using Microsoft.Maui.Devices;
 
 using NasreddinsSecretListener.Companion.Services;
+using NasreddinsSecretListener.Companion.Resources.Strings;
 
 namespace NasreddinsSecretListener.Companion.Services;
 
@@ -341,10 +342,10 @@ public class BleClientService : IBleClient
         var val = data[0]; // 0x00=None, 0x01=Early, 0x02=Confirmed
         var text = val switch
         {
-            0x00 => "Kein Magnet",
-            0x01 => "Annäherung",
-            0x02 => "Erkannt",
-            _ => $"Unbekannter Status 0x{val:X2}"
+            0x00 => AppResources.STATUS_DEVICE_00_NO_MAGNET,
+            0x01 => AppResources.STATUS_DEVICE_01_EARLY,
+            0x02 => AppResources.STATUS_DEVICE_02_CONFIRMED,
+            _ => $"{AppResources.STATUS_DEVICE_XX_UNKNOWN}0x{val:X2}"   // STATUS_DEVICE_XX_UNKNOWN
         };
 
         // Haptik gemäß Vorgabe: 0x01 = 1x kurz, 0x02 = 2x kurz Nicht blockierend ausführen (eigener Task)
@@ -353,7 +354,7 @@ public class BleClientService : IBleClient
         // UI-Status aktualisieren
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            StateChanged?.Invoke($"Status: {text}");
+            StateChanged?.Invoke(text);
         });
     }
 

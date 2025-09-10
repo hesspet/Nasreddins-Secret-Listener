@@ -1,4 +1,3 @@
-using Microsoft.Maui.Controls;
 using NasreddinsSecretListener.Companion.ViewModels;
 
 namespace NasreddinsSecretListener.Companion.Pages;

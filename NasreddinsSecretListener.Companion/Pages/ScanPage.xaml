@@ -33,7 +33,7 @@
                             <Label Text="{Binding Name}" FontAttributes="Bold" />
 
                             <Border Padding="4"
-                                BackgroundColor="{Binding IsNsl, Converter={StaticResource BoolToColorConverter}}"
+                                BackgroundColor="{Binding IsNsl, Converter={StaticResource BoolToColorConverterBluetooth}}"
                                 StrokeThickness="0">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="8" />
@@ -63,6 +63,6 @@
         </CollectionView>
 
         <Button Text="Verbinden &amp; Lauschen" Command="{Binding ConnectAndListenCommand}" />
-        <Label Text="{Binding StatusText}" />
+        <Label Text="{Binding StatusText,Converter={StaticResource StatusTextColorRemoveConverter }}" />
     </VerticalStackLayout>
 </ContentPage>

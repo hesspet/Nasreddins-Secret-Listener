@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="NasreddinsSecretListener.Companion.Pages.StatusPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -7,24 +6,25 @@
     x:DataType="viewmodels:ScanViewModel"
     Title="Status">
 
-    <!-- Falls die Converter NICHT global in App.xaml registriert sind,
-         kannst du sie hier lokal reinnehmen:
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <local:BoolToColorConverter x:Key="BoolToColorConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-    -->
+    <Grid Padding="16"
+          RowDefinitions="*,*"
+          RowSpacing="12">
 
-    <VerticalStackLayout Padding="16" Spacing="12">
+        <!-- erste Box (mit Text) -->
+        <Grid Grid.Row="0">
+            <BoxView BackgroundColor="{Binding StatusText, Converter={StaticResource StatusTextToColorConverter}}" />
+            <Label Text="{Binding StatusText, Converter={StaticResource StatusTextColorRemoveConverter}}"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   TextColor="White" />
+        </Grid>
 
-        <!-- groß & eindeutig -->
-        <Label Text="{Binding StatusText}"
-               FontSize="22"
-               FontAttributes="Bold" />
-
-        <!-- visueller Verbindungsindikator -->
-        <BoxView HeightRequest="8"
-                 BackgroundColor="{Binding IsConnected, Converter={StaticResource BoolToColorConverter}}" />
-    </VerticalStackLayout>
+        <!-- zweite Box -->
+        <BoxView Grid.Row="1"
+                 BackgroundColor="{Binding IsConnected, Converter={StaticResource BoolToColorConverterBluetooth}}" />
+    </Grid>
 </ContentPage>

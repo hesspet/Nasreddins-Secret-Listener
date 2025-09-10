@@ -1,9 +1,10 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using NasreddinsSecretListener.Companion.Models;
-using NasreddinsSecretListener.Companion.Services;
 using Microsoft.Maui.Storage;
+using NasreddinsSecretListener.Companion.Models;
+using NasreddinsSecretListener.Companion.Resources.Strings;
+using NasreddinsSecretListener.Companion.Services;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace NasreddinsSecretListener.Companion.ViewModels;
@@ -17,7 +18,7 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
         _settings = settings; // <— wichtig: speichern!
 
         _ble.DeviceDiscovered += Ble_DeviceDiscovered;
-        _ble.StateChanged += s => Microsoft.Maui.ApplicationModel.MainThread
+        _ble.StateChanged += s => MainThread
              .BeginInvokeOnMainThread(async () =>
              {
                  // Status immer anzeigen
@@ -87,7 +88,7 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
 
     private void Ble_DeviceDiscovered(NslDevice dev)
     {
-        Microsoft.Maui.ApplicationModel.MainThread.BeginInvokeOnMainThread(() =>
+        MainThread.BeginInvokeOnMainThread(() =>
         {
             // 🔎 Filter nur NSL-Geräte, wenn Setting aktiv ist
             if (_settings.ShowOnlyNsl && !dev.IsNsl)
@@ -120,7 +121,8 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     {
         if (SelectedDevice is null)
         {
-            StatusText = "Bitte Gerät wählen.";
+            //Status_SelectDevice
+            StatusText = AppResources.Status_SelectDevice;
             return;
         }
 
@@ -128,7 +130,7 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
         foreach (var d in Devices)
             d.IsMine = (d.Id == SelectedDevice.Id);
         ResortDevices();
-        StatusText = $"„{SelectedDevice.Name}“ als *Mein Gerät* gespeichert.";
+        StatusText = $"„{SelectedDevice.Name}“" + AppResources.Status_StoredAsMyDevice;
         HasMyDevice = true;
     }
 
@@ -137,18 +139,20 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     {
         if (SelectedDevice is null)
         {
-            StatusText = "Bitte Gerät wählen.";
+            StatusText = AppResources.Status_SelectDevice;
             return;
         }
 
-        StatusText = $"Verbinde zu {SelectedDevice.Name} …";
+        StatusText = $"{AppResources.Status_ConnectTo} {SelectedDevice.Name} …";
         var ok = await _ble.ConnectAndSubscribeAsync(SelectedDevice.Id);
         IsConnected = ok;
-        StatusText = ok ? "Verbunden. Lausche auf Status…" : "Verbindung fehlgeschlagen.";
+        // STATUS_DEVICE_00_NO_MAGNET wird hier vom Anwender erwartet, denn ab jetzt kann der Magnet
+        // erkannt werden.
+        StatusText = ok ? AppResources.STATUS_DEVICE_00_NO_MAGNET : AppResources.Status_ConnectionFailed;
 
         if (ok)
         {
-            await Microsoft.Maui.ApplicationModel.MainThread.InvokeOnMainThreadAsync(
+            await MainThread.InvokeOnMainThreadAsync(
                 () => Shell.Current.GoToAsync("//status")
             );
         }
@@ -159,14 +163,14 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     {
         if (string.IsNullOrEmpty(_myDeviceId))
         {
-            StatusText = "Kein 'Mein Gerät' gespeichert.";
+            StatusText = AppResources.Status_NoMyDeviceStored;
             return;
         }
 
-        StatusText = "Verbinde zu 'Mein Gerät'…";
+        StatusText = AppResources.Status_ConnectionToMyDevice;
         var ok = await _ble.ConnectByIdOrScanAsync(_myDeviceId, TimeSpan.FromSeconds(12));
         IsConnected = ok;
-        StatusText = ok ? "Verbunden. Lausche auf Status…" : "Nicht gefunden. Bitte näher ran und erneut versuchen.";
+        StatusText = ok ? AppResources.Status_ConnectedAndListen : AppResources.Status_ConnectionFailed;
 
         if (ok)
         {
@@ -221,7 +225,7 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     private async Task StartScan()
     {
         Devices.Clear();
-        StatusText = "Scannen…";
+        StatusText = AppResources.Status_Scanning;
         await _ble.StartScanAsync();
     }
 
@@ -229,7 +233,7 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
     private async Task StopScan()
     {
         await _ble.StopScanAsync();
-        StatusText = "Scan gestoppt.";
+        StatusText = AppResources.Status_ScanStopped;
     }
 
     // Kannst du z.B. im OnAppearing der Page aufrufen
@@ -245,10 +249,12 @@ public sealed partial class ScanViewModel : ObservableObject, IDisposable
 
         _autoConnectTried = true;
 
-        StatusText = "Auto-Connect zu 'Mein Gerät'…";
+        StatusText = AppResources.Status_AutoconnectToMyDevice;
         var ok = await _ble.ConnectByIdOrScanAsync(_myDeviceId, TimeSpan.FromSeconds(12));
         IsConnected = ok;
-        StatusText = ok ? "Verbunden. Lausche auf Status…" : "Auto-Connect fehlgeschlagen. Bitte näher ran und erneut versuchen.";
+        // STATUS_DEVICE_00_NO_MAGNET wird hier vom Anwender erwartet, denn ab jetzt kann der Magnet
+        // erkannt werden.
+        StatusText = ok ? AppResources.STATUS_DEVICE_00_NO_MAGNET : AppResources.Status_ConnectionFailedDuringAutoconnect;
 
         if (ok)
         {
