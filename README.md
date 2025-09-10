@@ -33,15 +33,16 @@ Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout
 - Entwicklung einer Smartphone-App als ~~Progressive Web App (PWA)~~ oder alternativ als MAUI-App
   - PWA wurde verworfen, da die Ansteuerung von Bluetooth nicht zu meiner Zufriedenheit gelöst werden konnte. (VERWORFEN)
   - Der Ansatz via MAUI hat sich als deutlich einfacher erwiesen  (ERLEDIGT)
-- Möglichkeit zur Magnet-Kalibrierung direkt vom Smartphone aus (==TBD==)
-- Sammlung von Kunststückideen, z. B.:
-  - „Which Hand“ – der Klassiker (==Video TBD==)
-  - „Nasreddin zaubert“ (==Video TBD==)
-  - Weitere Anwendungen
+- TODO: Möglichkeit zur Magnet-Kalibrierung direkt vom Smartphone aus (==TBD==)
+- TODO: Sammlung von Kunststückideen, z. B.:
+  - TODO: „Which Hand“ – der Klassiker (==Video TBD==)
+  - TODO: „Nasreddin zaubert“ (==Video TBD==)
+  - TODO: Weitere Anwendungen
 - Umstellung des ESP32 Boards auf das Board **Wemos Lolin C3 PICO ESP32-C3**. Dieses Board erfüllt alle Anforderungen die man für das Projekt benötigt. (ERLEDIGT)
 - Prototyp erststellen (ERLEDIGT)
 - Notifikation an Smartwach weitergeben (ERLEDIGT)
-- Smartwatch als Bluetooth Client erstellen. Direktverbindung von Smartwatch zu Device ohne "Mann in the Middle(Smartphone)"
+- TODO: Smartwatch als Bluetooth Client erstellen. Direktverbindung von Smartwatch zu Device ohne "Mann in the Middle(Smartphone)"
+- TODO: Zentrale Konfigurationsdatei einbinden, so dass UID Änderungen automatisch in beiden Anwendungsteilen (Smartphone Companion und ESP32 Device) vorhanden sind.
 
 ## Prototyp - 2025-09-06
 
