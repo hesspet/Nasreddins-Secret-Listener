@@ -134,6 +134,8 @@ void setup()
 	gLed.LedRed(); delay(500);
 
 	gLed.showState(MagnetState::None, gBle.isConnected());
+
+	gBle.notify(MagnetState::Early);
 	gBle.notify(MagnetState::None);
 
 	gLastMs = millis();
@@ -160,9 +162,11 @@ void loop()
 
 	// Update LED/BLE on state change
 	static MagnetState lastShown = MagnetState::None;
-	if (st != lastShown) {
+	static bool lastIsConnection = false;
+	if (st != lastShown || lastIsConnection != gBle.isConnected()) {
 		lastShown = st;
-		gLed.showState(st, gBle.isConnected());
+		lastIsConnection = gBle.isConnected();
+		gLed.showState(lastShown, lastIsConnection);
 	}
 
 	if (st != gLastSent) {

@@ -19,15 +19,13 @@ void LedDisplay::begin()
 #ifdef ARDUINO_LOLIN_C3_PICO
 void LedDisplay::showState(MagnetState s, bool isConnectedToBleClient)
 {
-	// HACK - RGB Led Reihenfolge stimmt nicht.
-
 	switch (s)
-
 	{
 	case MagnetState::Confirmed: // Green - Magnet detected
 		LedGreen();
 		Serial.println("State:Confirmed");
 		break;
+
 	case MagnetState::Early: // Yellow
 		LedYellow();
 		Serial.println("State:Early");
@@ -40,7 +38,7 @@ void LedDisplay::showState(MagnetState s, bool isConnectedToBleClient)
 		}
 		else
 		{
-			LedRed();
+			LedBlue();
 		}
 		Serial.println("State:None");
 		break;
@@ -60,12 +58,14 @@ void LedDisplay::flashBlue(uint8_t times, uint16_t onMs, uint16_t offMs)
 
 void LedDisplay::off()
 {
+	// HACK - RGB Led Reihenfolge stimmt nicht
 	Serial.println("LED off");
 	rgbLedWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
 }
 
 void LedDisplay::LedRed()
 {
+	// HACK - RGB Led Reihenfolge stimmt nicht
 	Serial.println("LED RED");
 	float scale = RGB_BRIGHTNESS / 255.0;
 	rgbLedWriteOrdered(RGB_BUILTIN, LED_COLOR_ORDER_RGB, 255 * scale, 0, 0);
@@ -73,6 +73,7 @@ void LedDisplay::LedRed()
 
 void LedDisplay::LedBlue()
 {
+	// HACK - RGB Led Reihenfolge stimmt nicht
 	Serial.println("LED BLUE");
 	float scale = RGB_BRIGHTNESS / 255.0;
 	rgbLedWriteOrdered(RGB_BUILTIN, LED_COLOR_ORDER_RGB, 0, 0, 255 * scale);
@@ -80,6 +81,7 @@ void LedDisplay::LedBlue()
 
 void LedDisplay::LedGreen()
 {
+	// HACK - RGB Led Reihenfolge stimmt nicht
 	Serial.println("LED GREEN");
 	float scale = RGB_BRIGHTNESS / 255.0;
 	rgbLedWriteOrdered(RGB_BUILTIN, LED_COLOR_ORDER_RGB, 0, 255 * scale, 0);
@@ -87,6 +89,7 @@ void LedDisplay::LedGreen()
 
 void LedDisplay::LedYellow()
 {
+	// HACK - RGB Led Reihenfolge stimmt nicht
 	Serial.println("LED YELLOW");
 	float scale = RGB_BRIGHTNESS / 255.0;
 	rgbLedWriteOrdered(RGB_BUILTIN, LED_COLOR_ORDER_RGB, 255 * scale, 255 * scale, 0);
