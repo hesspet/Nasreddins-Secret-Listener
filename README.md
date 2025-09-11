@@ -1,4 +1,4 @@
-# Nasreddins Secret Listener
+# Nasreddins Secret Listener (NSL)
 
 ## Magie trifft Technik
 
