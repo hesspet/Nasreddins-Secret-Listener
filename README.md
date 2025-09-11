@@ -21,9 +21,12 @@ Mein Ziel war es daher, eine robuste, nachvollziehbare und preisgünstige Varian
 
 ## Videos (Youtube)
 
-* Testlauf im Wochenendhaus - [https://youtu.be/8nuGtZGBIqA]
-* Video über ESP32 und Magnetometer - Beschreibung des Gerätes - https://youtu.be/cL9djASFSl
+Die nachfolgenden Videos sind alle mehr oder weniger ohne Script entstanden um NSL auf einfache Weise vorzustellen. Gefilmt aus der freien Hand, meist einhändig. Irgendwann mache ich das vielleicht mal etwas besser. Mal sehen....
+
+* Testlauf im Urlaub (Ferienwohnung) - https://youtu.be/8nuGtZGBIqA
 * Nasreddin zeigt wie es geht - https://www.youtube.com/watch?v=QMSNmQHZKCU
+* Video über ESP32 und Magnetometer - Beschreibung des Gerätes - https://youtu.be/cL9djASFSl
+* Die Android Companion App - https://youtu.be/Q3gSeytvbNk
 
 ## Technische Basis
 
