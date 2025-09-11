@@ -19,6 +19,10 @@ Mein Ziel war es daher, eine robuste, nachvollziehbare und preisgünstige Varian
 - Bis auf wenige Lötarbeiten mit gängiger Hardware umsetzbar
 - Notifikation auch auf Smartwatches
 
+## Videos (Youtube)
+
+* Testlauf im Wochenendhaus - [https://youtu.be/8nuGtZGBIqA]
+
 ## Technische Basis
 
 Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout-Board (GY-273). Dieser Sensor erkennt Magnete zuverlässig – ideal für den geplanten Einsatz.  Es gibt von Adafruit eine gut dokumentierte Bibliothek, die den gesamten I²C-Overhead verwaltet und so die Ansteuerung erleichtert.
