@@ -36,7 +36,7 @@ Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout
 
 ## Roadmap
 
-see: [WIKI-Roadmap]https://github.com/hesspet/Nasreddins-Secret-Listener/wiki/Roadmap
+see: [WIKI-Roadmap](https://github.com/hesspet/Nasreddins-Secret-Listener/wiki/Roadmap)
 
 ## Prototyp - 2025-09-06
 
