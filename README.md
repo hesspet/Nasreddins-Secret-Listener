@@ -22,7 +22,9 @@ Mein Ziel war es daher, eine robuste, nachvollziehbare und preisgünstige Varian
 ## Videos (Youtube)
 
 * Testlauf im Wochenendhaus - [https://youtu.be/8nuGtZGBIqA]
-* Video über ESP32 und Magnetometer - Beschreibung des Gerätes - https://youtu.be/cL9djASFSlg
+* Video über ESP32 und Magnetometer - Beschreibung des Gerätes - https://youtu.be/cL9djASFSl
+* Nasreddin zeigt wie es geht - https://www.youtube.com/watch?v=QMSNmQHZKCU
+
 ## Technische Basis
 
 Das Herzstück ist ein **QMC5883L-Magnetometer Chip** auf einem kleinen Breakout-Board (GY-273). Dieser Sensor erkennt Magnete zuverlässig – ideal für den geplanten Einsatz.  Es gibt von Adafruit eine gut dokumentierte Bibliothek, die den gesamten I²C-Overhead verwaltet und so die Ansteuerung erleichtert.
