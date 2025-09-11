@@ -9,12 +9,17 @@ bool MagnetDetector::begin()
 		return false;
 	}
 
-	// Baseline
 	uint32_t t0 = millis(); uint32_t n = 0; double sumB2 = 0;
-	while (millis() - t0 < BASELINE_MS) {
-		sensors_event_t e; mag_.getEvent(&e);
+
+	while (millis() - t0 < BASELINE_MS)
+	{
+		sensors_event_t e;
+		mag_.getEvent(&e);
+
 		float x = e.magnetic.x, y = e.magnetic.y, z = e.magnetic.z;
-		sumB2 += (x * x + y * y + z * z); n++;
+		sumB2 += (x * x + y * y + z * z);
+		n++;
+
 		delay(10);
 	}
 
@@ -22,8 +27,11 @@ bool MagnetDetector::begin()
 
 	B0_sq = (float)(sumB2 / n);
 	B0_ut = sqrtf(B0_sq);
+
 	emaB2_slow = emaB2_fast = prevFastB2 = B0_sq;
+
 	recalcThresholds();
+
 	lastLoopMs = lastChangeMs = millis();
 	state_ = MagnetState::None;
 
@@ -49,6 +57,7 @@ MagnetState MagnetDetector::tick(uint32_t dtMs)
 	lastLoopMs = now;
 
 	sensors_event_t e; mag_.getEvent(&e);
+
 	float x = e.magnetic.x, y = e.magnetic.y, z = e.magnetic.z;
 	float B2 = x * x + y * y + z * z;
 
@@ -105,7 +114,8 @@ MagnetState MagnetDetector::tick(uint32_t dtMs)
 
 	// Auto recalibration
 	bool isQuiet = fabsf(dB2_slow) <= QUIET_BAND2 && !early && !confirmed;
-	if (!confirmed && !early && !cooldownActive && isQuiet) {
+	if (!confirmed && !early && !cooldownActive && isQuiet)
+	{
 		quietAccumMs += dtMs;
 		if (quietAccumMs >= RECAL_AFTER_MS) {
 			B0_sq = (1 - RECAL_ALPHA) * B0_sq + RECAL_ALPHA * emaB2_slow;
@@ -114,7 +124,8 @@ MagnetState MagnetDetector::tick(uint32_t dtMs)
 			quietAccumMs = 0;
 		}
 	}
-	else {
+	else
+	{
 		quietAccumMs = 0;
 	}
 
