@@ -18,7 +18,8 @@ Mein Ziel war es daher, eine robuste, nachvollziehbare und preisgünstige Varian
 - Bauteile leicht zu beschaffen in DE
 - Bis auf wenige Lötarbeiten mit gängiger Hardware umsetzbar
 - Notifikation auch auf Smartwatches
-
+- ggf. auch iOS Support -> (WIKI iOS Support)[https://github.com/hesspet/Nasreddins-Secret-Listener/wiki/iOS-Support] Sponsor gesucht...
+  
 ## Videos (Youtube)
 
 Die nachfolgenden Videos sind alle mehr oder weniger ohne Script entstanden um NSL auf einfache Weise vorzustellen. Gefilmt aus der freien Hand, meist einhändig. Irgendwann mache ich das vielleicht mal etwas besser. Mal sehen....
