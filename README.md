@@ -26,7 +26,7 @@ Die nachfolgenden Videos sind alle mehr oder weniger ohne Script entstanden um N
 
 * Testlauf im Urlaub (Ferienwohnung) - https://youtu.be/8nuGtZGBIqA
 * Nasreddin zeigt wie es geht - https://www.youtube.com/watch?v=QMSNmQHZKCU
-* Video über ESP32 und Magnetometer - Beschreibung des Gerätes - https://youtu.be/cL9djASFSl
+* Video über ESP32 und Magnetometer - Beschreibung des Gerätes - [https://youtu.be/cL9djASFSlg](https://youtu.be/cL9djASFSlg)
 * Die Android Companion App - https://youtu.be/Q3gSeytvbNk
 
 ## Technische Basis
